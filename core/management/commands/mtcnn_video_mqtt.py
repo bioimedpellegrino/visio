@@ -49,44 +49,48 @@ class Command(BaseCommand):
         #image = cv2.cvtColor(cv2.imread(test_pic), cv2.COLOR_BGR2RGB)
         cap=cv2.VideoCapture(0)
         while True:
-            #capture frame by frame
-            time.sleep(0.02)
-            __, frame=cap.read()
+            camera_is_active = TCamera.objects.get(pk=1).is_active
+            if camera_is_active:
+                #capture frame by frame
+                time.sleep(0.5)
+                __, frame=cap.read()
             
-            i=0
-            result = detector.detect_faces(frame)
-            print(len(result))
-            if result != []:
-                    for person in result:
-                        print(person['confidence'])
-                        if(person['confidence']>threshold):
-                            i=i+1
-                            bounding_box=person['box']
-                            keypoints=person['keypoints']
-                            cv2.rectangle(frame,
-                                      (bounding_box[0], bounding_box[1]),
-                                      (bounding_box[0]+bounding_box[2], bounding_box[1] + bounding_box[3]),
-                                      (0,155,255),
-                                      2)
+                i=0
+                result = detector.detect_faces(frame)
+                print(len(result))
+                if result != []:
+                        for person in result:
+                            print(person['confidence'])
+                            if(person['confidence']>threshold):
+                                i=i+1
+                                bounding_box=person['box']
+                                keypoints=person['keypoints']
+                                cv2.rectangle(frame,
+                                          (bounding_box[0], bounding_box[1]),
+                                          (bounding_box[0]+bounding_box[2], bounding_box[1] + bounding_box[3]),
+                                          (0,155,255),
+                                           2)
 
-                            cv2.circle(frame,(keypoints['left_eye']), 2, (0,155,255), 2)
-                            cv2.circle(frame,(keypoints['right_eye']), 2, (0,155,255), 2)
-                            cv2.circle(frame,(keypoints['nose']), 2, (0,155,255), 2)
-                            cv2.circle(frame,(keypoints['mouth_left']), 2, (0,155,255), 2)
-                            cv2.circle(frame,(keypoints['mouth_right']), 2, (0,155,255), 2)
+                                cv2.circle(frame,(keypoints['left_eye']), 2, (0,155,255), 2)
+                                cv2.circle(frame,(keypoints['right_eye']), 2, (0,155,255), 2)
+                                cv2.circle(frame,(keypoints['nose']), 2, (0,155,255), 2)
+                                cv2.circle(frame,(keypoints['mouth_left']), 2, (0,155,255), 2)
+                                cv2.circle(frame,(keypoints['mouth_right']), 2, (0,155,255), 2)
                     
-                    #if i>0:
-                    face_num =i 
-                    client.publish(topic = topic_name, payload = face_num)
-                    #sqlite
-                    if i>0:
-                      print(face_num)
-                      t_image = TImage()
-                      t_image.face_num = face_num
-                      t_image.camera = camera
-                      t_image.save()
+                        #if i>0:
+                        face_num =i 
+                        client.publish(topic = topic_name, payload = face_num)
+                        #sqlite
+                        if i>0:
+                           print(face_num)
+                           t_image = TImage()
+                           t_image.face_num = face_num
+                           t_image.camera = camera
+                           t_image.save()
 
-
+                
+            else:
+                print("Camera is not active")
             #cv2.imshow('frame', frame) #corretto in debian con UI
             if cv2.waitKey(1) & 0xFF == ord('q'): #stop digitando 1
                 break

@@ -6,4 +6,5 @@ from . import views
 urlpatterns = [
     #Dashboard
     path('main', views.DashboardView.as_view(), name="dashboard"),
+    path('camera_active', views.ActivateDeactivateCamera.as_view(), name="control_camera"),
 ]

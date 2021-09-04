@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visio</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    </head>
+    <body>
+        <header class="page-header">
+          <div class="container">
+              <h1><a href="/">Visio</a></h1>
+          </div>
+        </header>
+
+        <main class="container">
+            <div class="row">
+                <div class="col">
+                    <table>
+                       <tr>
+                         <td>Numero accessi</td>
+			 <td>{{ counter }}</td>
+                       </tr>
+                       <tr>
+                         <td>Camera attiva?</td>
+			 <td>{{ is_active }}</td>
+                       </tr>
+                    </table>
+
+                    <form action="{% url 'control_camera' %}" type="post" enctype="multipart/form-data">
+                       <button type="submit">Attiva/Disattiva Video camera</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
