@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
-
+from django.views import View
 
 @login_required(login_url="/login/")
 def index(request):
@@ -44,3 +44,11 @@ def pages(request):
         traceback.print_exc()
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url="/login/")
+def camera_settings(request):
+    context = {'segment': 'camera-settings'}
+
+    html_template = loader.get_template('home/camera-settings.html')
+    return HttpResponse(html_template.render(context, request))
