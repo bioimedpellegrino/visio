@@ -49,11 +49,11 @@
 ```bash
 $ # Get the code
 $ git clone https://github.com/creativetimofficial/material-dashboard-django.git
-$ cd material-dashboard-django
+$ cd visio
 $
 $ # Virtualenv modules installation (Unix based systems)
-$ virtualenv env
-$ source env/bin/activate
+$ virtualenv venv
+$ source venv/bin/activate
 $
 $ # Virtualenv modules installation (Windows based systems)
 $ # virtualenv env
@@ -63,7 +63,6 @@ $ # Install modules - SQLite Storage
 $ pip3 install -r requirements.txt
 $
 $ # Create tables
-$ python manage.py makemigrations
 $ python manage.py migrate
 $
 $ # Start the application (development mode)
