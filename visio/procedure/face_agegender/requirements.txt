@@ -1,0 +1,7 @@
+face_agegender
+sudo pip3 install OpenCV-python
+sudo pip3 install numpy
+
+#per leggere video su youtube
+sudo pip3 install pafy
+sudo pip3 install youtube_dl

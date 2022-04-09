@@ -1,0 +1,10 @@
+face detection
+
+opencv
+sudo pip3 install opencv.python==4.5.4.60
+
+numpy
+sudo pip3 install -U numpy
+
+sqlite
+sudo pip3 install sqlite

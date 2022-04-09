@@ -1,0 +1,19 @@
+FACE EMOTION
+python 3.3
+dlib
+sudo pip3 install dlib
+
+face_recognition
+sudo pip3 install face_recognition
+
+tensorflow for python 3
+gia installato
+tensorflow 2.0.0
+
+keras 2.8.0
+sudo pip3 install keras
+
+model h5py 3.10
+per error in v.3.10
+sudo pip3 install 'h5py=2.10.0' --force-reinstall 
+

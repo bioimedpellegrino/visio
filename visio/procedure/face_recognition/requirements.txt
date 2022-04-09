@@ -1,0 +1,10 @@
+face recognition
+
+opencv
+sudo pip3 install opencv.python==4.5.4.60
+
+sqlite
+sudo pip3 install sqlite
+
+pandas
+sudo pip3 install pandas

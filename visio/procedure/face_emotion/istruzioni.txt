@@ -1,0 +1,34 @@
+installazione e utilizzo dello script
+istruzioni:
+https://github.com/priya-dwivedi/face_and_emotion_detection
+
+lo script necessita delle seguenti libreire:
+numpy
+tensorflow
+keras
+face_recognition (https://github.com/priya-dwivedi/face_and_emotion_detection qui trovi le istruzioni per installarlo)
+cv2
+dlib
+
+e inoltre va utilizzato il file del modello della rete neurale pre addestrata (in allegato alla mail e richiamato nell'
+istruzione model = load_model("model_v6_23.hdf5") )
+
+ANACONDA3
+anch'io ho installato tutto su windows 10 con anaconda 3
+provo a girarti il mio environment (in questo modo dovresti poter creare un environment identico sul tuo pc con tutte le librerie necessarie già pronte), puoi seguire le istruzioni qui presenti ( https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) alla voce create an environment fron an environment.yml file  per installare il mio environment sul tuo anaconda (in realtà basta l'istruzione conda env create -f environment.yml)
+
+cosi se funziona fai meno fatica e hai già tutte le librerie pronte...
+
+CONDA ENV
+Ecco io ho provato il file environment.yml e dovrebbe funzionare con il seguente procedimento:
+0) install cmake
+1) install VS 2019
+1) apri anaconda prompt
+2) digita il comando conda env create -f environment.yml  assicurandoti che il file environment.yml sia nel path corrente, l'installazione ci metterà un po
+   perchè deve scaricare le librerie da internet
+3) puoi già vedere in anaconda GUI alla voce environments l'ambiente tf_gpu che contiene le librerie necessarie
+4) ora fai partire l'environment (doppio clic) e a questo punto con l'ide che usi di solito (io uso spyder) apri il codice sorgente che ti ho inviato e tutto dovrebbe funzionare
+
+export PATH="/Users/Lorenzo/.anaconda/bin:$PATH" 
+
+
