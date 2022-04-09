@@ -51,4 +51,19 @@ def camera_settings(request):
     context = {'segment': 'camera-settings'}
 
     html_template = loader.get_template('home/camera-settings.html')
+    user_selection = [
+        "DETECTION",
+        "RECOGNITION",
+        "EMOTION",
+        "AGE-GENDER",
+        "SOUND MESSAGE"
+    ]
+
+    camera_button = [
+        "ON",
+        "OFF"
+    ]
+
+    request.user_selection = user_selection
+    request.camera_button = camera_button
     return HttpResponse(html_template.render(context, request))

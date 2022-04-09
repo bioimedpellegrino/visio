@@ -6,7 +6,60 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="card">
+        <div class="card-header card-header-success">
+            <h4 class="card-title">Impostazioni di elaborazione</h4>
+            <p class="card-category">Seleziona tipo di elaborazione</p>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover">
+            <thead class="text-warning">
+                <th>Tipo di elaborazione</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for user_sel in request.user_selection %}
+                <tr>
+                    <td>
+                        <label for={{user_sel}}>{{user_sel}}</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" id={{user_sel}} name={{user_sel}} value={{user_sel}}>
+                    </td>
+                </tr>
+                {% endfor%}
+            </tbody>
+            </table>
+            <button type="submit" name="save" class="btn btn-primary pull-right">Salva impostazioni</button>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="card">
+        <div class="card-header card-header-success">
+            <h4 class="card-title">Accendi-Spegni</h4>
+            <p class="card-category">Seleziona se la camera deve essere accesa o spenta</p>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <td>
+                        <select name="camera_on_off" id="camera_on_off" class="form-control selectpicker">
+                            <option value="0">Spenta</option>
+                            <option value="1">Accesa</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+            <button type="submit" name="save" class="btn btn-primary pull-right">Salva impostazioni</button>
+        </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
