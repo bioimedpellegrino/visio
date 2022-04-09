@@ -39,6 +39,8 @@ def pages(request):
         html_template = loader.get_template('home/page-404.html')
         return HttpResponse(html_template.render(context, request))
 
-    except:
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
