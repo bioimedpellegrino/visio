@@ -54,9 +54,9 @@ def camera_settings(request):
     user_selection = [
         "DETECTION",
         "RECOGNITION",
-        "EMOTION",
-        "AGE-GENDER",
-        "SOUND MESSAGE"
+        "EMOTION-AGE-GENDER",
+        "SOUND MESSAGE",
+        "SAVE IMAGE"
     ]
 
     camera_button = [

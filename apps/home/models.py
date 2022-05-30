@@ -1,6 +1,24 @@
 from turtle import mode
 from django.db import models
 
+class Param(models.Model):
+    """
+    """
+    id = models.AutoField(primary_key=True)
+    facedetection = models.PositiveIntegerField(default=0, blank=True, null=True)
+    facerecognition = models.PositiveIntegerField(default=0, blank=True, null=True)
+    facemotion = models.PositiveIntegerField(default=0, blank=True, null=True)
+    faceagegender = models.PositiveIntegerField(default=0, blank=True, null=True)
+    saveimage = models.PositiveIntegerField(default=0, blank=True, null=True)
+    useaudio = models.PositiveIntegerField(default=0, blank=True, null=True)
+    
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Parametro"
+        verbose_name_plural = "Parametri"
+        
 class Camera(models.Model):
     """
     """
@@ -51,6 +69,7 @@ class VisioRecognition(models.Model):
     age = models.CharField(max_length=1024, null=True, blank=True, default="")
     gender = models.CharField(max_length=10, null=True, blank=True, default="")
     emotion = models.CharField(max_length=1024, null=True, blank=True, default="")
+    recorded = models.DateTimeField(auto_now_add=True)
 
 class ImageData(models.Model):
     """

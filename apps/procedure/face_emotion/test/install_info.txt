@@ -1,0 +1,18 @@
+cd git clone --single-branch https://github.com/ageitgey/face_recognition.git
+
+https://www.raspberrypi.org/blog/add-face-recognition-with-raspberry-pi-hackspace-38/
+
+https://github.com/ageitgey/face_recognition
+
+
+EMOTION
+
+-installare le dlib (pip3 install dlib)
+-installare face_recognition (pip3 install face_Recognition)
+
+a questa pagina  trovi le istruzioni complete 
+https://github.com/priya-dwivedi/face_and_emotion_detection
+
+video emotion recognition su CONDA
+conda install -c conda-forge dlib
+pip3 install face_recognition
