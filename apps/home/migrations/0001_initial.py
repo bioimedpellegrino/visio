@@ -13,6 +13,22 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='Param',
+            fields=[
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('detection', models.PositiveIntegerField(blank=True, default=0, null=True)),
+                ('recognition', models.PositiveIntegerField(blank=True, default=0, null=True)),
+                ('emotion_agegender', models.PositiveIntegerField(blank=True, default=0, null=True)),
+                ('saveimage', models.PositiveIntegerField(blank=True, default=0, null=True)),
+                ('useaudio', models.PositiveIntegerField(blank=True, default=0, null=True)),
+                ('framelapse', models.PositiveRealField(blank=True, default=0, null=True)),
+            ],
+            options={
+                'verbose_name': 'Impostazione',
+                'verbose_name_plural': 'Impostazioni',
+            },
+        ),
+        migrations.CreateModel(
             name='Camera',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
