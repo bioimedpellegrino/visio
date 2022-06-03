@@ -22,17 +22,18 @@ import tensorflow as tf
 #dbfullpath=os.path.join(BASE_DIR,"../../data/visio.sqlite3")
 class FaceEmotion:
     def __init__(self):
-        sys.path.insert(1, '/home/pi/visiog/procedure/visiopackage')
-        import self.djangosqlite_db
+        sys.path.insert(1, '/home/pi/visio/procedure')
+        import self.usersel
+        self.dbman= self.usersel.Usersel().dbman
         #GLOBAL VAR per current entityid
-        self.entityid= self.djangosqlite_db.Dbmgr().cur_entityid
+        self.entityid= self.dbman.cur_entityid
         self.age = 0
         self.gender= 'female'
         #self.lastname='anonimous-emo'
-        self.firstname = self.djangosqlite_db.Dbmgr().emotion_user #'anonymous_emo'
+        self.firstname = self.dbman.emotion_user #'anonymous_emo'
         self.emotion_dict= {'Angry': 0, 'Sad': 5, 'Neutral': 4, 'Disgust': 1, 
                             'Surprise': 6, 'Fear': 2, 'Happy': 3}
-        self.model = load_model(self.djangosqlite_db.Dbmgr().emotion_modelpath)
+        self.model = load_model(self.dbman.emotion_modelpath)
 
     def faceextract(self, image):
         face_locations = face_recognition.face_locations(image)
@@ -71,7 +72,7 @@ class FaceEmotion:
                  emotion= predicted_label
                  # aggiungo un anonimous per ogni emotion personid anonimo 
                  lastname = self.firstname + str(personcounter)             
-                 self.djangosqlite_db.Dbmgr().insert_person_emotion(self.firstname, lastname, 
+                 self.dbman.insert_person_emotion(self.firstname, lastname, 
                                       self.entityid, self.age, self.gender, emotion)
                  personcounter += 1
              else:
@@ -104,7 +105,7 @@ class FaceEmotion:
              emotion= predicted_label
              # aggiungo un anonimous per ogni emotion personid anonimo 
              lastname = self.firstname + str(personcounter)             
-             self.djangosqlite_db.Dbmgr().insert_person_emotion(self.firstname, lastname, 
+             self.dbman.insert_person_emotion(self.firstname, lastname, 
                                   self.entityid, self.age, self.gender, emotion)
              personcounter += 1
         else:

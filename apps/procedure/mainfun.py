@@ -5,16 +5,8 @@ import sys
 print(sys.version)
 import sys
 import time
-#query db
-#sys.path.insert(1,'/home/pi/visio/visiopackage/sqlite')
-#import sqlitevisio_db
 
-#procedurepath = '/home/pi/visiog/visiopackage/sqlite'
 #procpath = '/home/pi/visiog/procedure'
-
-#sys.path.insert(1, procedurepath)
-#import djangosqlite_db
-
 #sys.path.insert(1, procpath)
 #import usersel
 #sys.path.insert(1, '/home/pi/visiog/procedure/face_detection')
@@ -31,32 +23,27 @@ import time
 
 class Main():
     def __init__(self):
-        #self.procedurepath = '/home/pi/visiog/procedure/visiopackage'
-        sys.path.insert(1, '/home/pi/visiog/procedure/visiopackage')
-        import djangosqlite_db
-        self.djangosqlite_db = djangosqlite_db
-        sys.path.insert(1, '/home/pi/visiog/procedure')
+        sys.path.insert(1, '/home/pi/visio/procedure')
         import usersel
         self.usersel = usersel
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_detection')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_detection')
         import dja_fdetect
         self.dja_fdetect = dja_fdetect
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_recognition')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_recognition')
         import facerec_faster_sql2
         self.facerec_faster_sql2 = facerec_faster_sql2
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_emotion')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_emotion')
         import testextract
         self.testextract = testextract
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_agegender')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_agegender')
         import face_agegender
         self.face_agegender=face_agegender       
         
     def mainfun(self):
-        dbman= self.djangosqlite_db.Dbmgr()
         usel = self.usersel.Usersel()
         usel.getparams_fromDb() #get user selections saved in DB
         usel.showparams()
-        imgfullpath = dbman.imgpath
+        imgfullpath = usel.dbman.imgpath
         imgcounter=0
         personcounter = 0 #Emotion
         faceemotion = self.testextract.FaceEmotion()

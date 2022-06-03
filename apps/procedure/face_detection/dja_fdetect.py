@@ -6,14 +6,12 @@ from mtcnn_cv2 import MTCNN
 import sys
 
 class Detection:
-    def __init__(self):
-        sys.path.insert(1, '/home/pi/visiog/procedure/visiopackage')
-        import djangosqlite_db
-        self.djangosqlite_db = djangosqlite_db
-        self.dbman = self.djangosqlite_db.Dbmgr()
+    def __init__(self):  
+        sys.path.insert(1, '/home/pi/visio/procedure')
+        import usersel
+        self.usel = usersel.Usersel()
+        self.dbman = self.usel.dbman
         self.entityid= self.dbman.cur_entityid
-        sys.path.insert(1, '/home/pi/visiog/procedure')
-        import self.usersel
         #self.detector = MTCNN()
 
     def facedetect2(self, frame, imgfullpath, imgcounter):

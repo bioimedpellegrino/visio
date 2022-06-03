@@ -10,10 +10,10 @@ from datetime import datetime
 
 class Audio:
     def __init__(self):
-        sys.path.insert(1,'/home/pi/visiog/procedure/visiopackage')
-        import djangosqlite_db
-        self.djangosqlite_db = djangosqlite_db
-        self.wave_folder= self.djangosqlite_db.Dbmgr().soundpath #'/home/pi/visio/sound/'
+        sys.path.insert(1,'/home/pi/visio/procedure')
+        import self.usersel
+        self.dbman= self.usersel.Usersel().dbman
+        self.wave_folder= self.dbman.soundpath #'/home/pi/visio/sound/'
         self.wave_file_morn = 'buongiorno.wav'#'Nirvana2.wav'
         self.wave_file_after= 'buonpome.wav'
         self.wave_file_even= 'buonasera.wav'

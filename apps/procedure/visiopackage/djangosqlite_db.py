@@ -14,16 +14,16 @@ from datetime import datetime
 
 class Dbmgr:
     def __init__(self):
-        self.dbpath= r'/home/pi/visiog/data/db.sqlite3' # create DB
-        self.portraitpath= r'/home/pi/visiog/pictures/portraits/'
-        self.imgpath= r'/home/pi/visiog/pictures/'
-        self.procedurepath= r'/home/pi/visiog/procedure/visiopackage'
-        self.soundpath= r'/home/pi/visiog/sound/'
+        self.dbpath= r'/home/pi/visio/data/db.sqlite3' # create DB
+        self.portraitpath= r'/home/pi/visio/pictures/portraits/'
+        self.imgpath= r'/home/pi/visio/pictures/'
+        self.procedurepath= r'/home/pi/visio/procedure/visiopackage'
+        self.soundpath= r'/home/pi/visio/sound/'
         self.emotion_user= 'anonymous_emo'
-        self.emotion_modelpath= r'/home/pi/visiog/procedure/face_emotion/model_v6_23.hdf5'
+        self.emotion_modelpath= r'/home/pi/visio/procedure/face_emotion/model_v6_23.hdf5'
         self.cur_entityid=1 #da impostare con entityid valida correntemente
         self.agegen_user= 'anonymous_agegen'
-        self.agegender_modelpath= r'/home/pi/visiog/procedure/face_agegender/agegender_model/'
+        self.agegender_modelpath= r'/home/pi/visio/procedure/face_agegender/agegender_model/'
         
         self.conn = sqlite3.connect(self.dbpath)
     #print(type(conn))
@@ -58,7 +58,8 @@ class Dbmgr:
     def create_camera(self): #function > def create_camera(): method > def create_camera(self):
         c = self.conn.cursor()
         try:
-            c.execute("""CREATE TABLE IF NOT EXISTS home_camera (id INTEGER PRIMARY KEY, name TEXT, 
+            c.execute("""CREATE TABLE IF NOT EXISTS home_camera (id INTEGER PRIMARY KEY, 
+                                                                 name TEXT, 
                                                                  desc TEXT, 
                                                                  user_selection TEXT);""")
         except:
@@ -71,7 +72,9 @@ class Dbmgr:
         c = self.conn.cursor()
         try:
             c.execute("""CREATE TABLE IF NOT EXISTS home_entity (id INTEGER PRIMARY KEY, 
-                                                                 name TEXT, desc TEXT, site TEXT, 
+                                                                 name TEXT, 
+                                                                 desc TEXT, 
+                                                                 site TEXT, 
                                                                  camera INTEGER, 
                                                                  FOREIGN KEY(camera) REFERENCES home_camera(id));""")
         except:
@@ -102,7 +105,8 @@ class Dbmgr:
         c = self.conn.cursor()
         try: #document_num TEXT,
             c.execute("""CREATE TABLE IF NOT EXISTS home_person (id INTEGER PRIMARY KEY, 
-                                                                 firstname TEXT,  lastname TEXT, 
+                                                                 firstname TEXT,  
+                                                                 lastname TEXT, 
                                                                  birth_date DATETIME,  
                                                                  face_image TEXT);""") #imagefullpath
         except Exception as e:

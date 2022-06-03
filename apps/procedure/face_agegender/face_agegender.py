@@ -8,8 +8,11 @@ import sys
 
 class AgeGender:
     def __init__(self):
-        sys.path.insert(1,'/home/pi/visiog/procedure/visiopackage')
-        import self.djangosqlite_db
+        #sys.path.insert(1,'/home/pi/visiog/procedure/visiopackage')
+        #import self.djangosqlite_db
+        sys.path.insert(1, '/home/pi/visio/procedure')
+        import usersel
+        self.usel = usersel.Usersel()
         #self.cap = cv2.VideoCapture(0)
         #cap.set(propId, value), here 3 is the propertyId of width and 4 is for Height.
         self.cap.set(3, 480) #set width of the frame
@@ -18,11 +21,11 @@ class AgeGender:
         self.MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
         self.age_list = ['(0, 2)', '(4, 6)', '(8, 12)', '(15, 20)', '(25, 32)', '(38, 43)', '(48, 53)', '(60, 100)']
         self.gender_list = ['Male', 'Female']
-        self.modelfullpath= self.djangosqlite_db.Dbmgr().agegender_modelpath #"/home/pi/visio/procs/face_agegender/agegender_model/" 
+        self.modelfullpath= self.usel.dbman.agegender_modelpath #"/home/pi/visio/procs/face_agegender/agegender_model/" 
         self.age_net, self.gender_net = self.load_caffe_models()
         self.font = cv2.FONT_HERSHEY_SIMPLEX
-        self.firstname = self.djangosqlite_db.Dbmgr().agegen_user
-        self.entityid= self.djangosqlite_db.Dbmgr().cur_entityid
+        self.firstname = self.usel.dbman.agegen_user
+        self.entityid= self.usel.dbman.cur_entityid
         self.emotion= ''
 
     def load_caffe_models(self):
@@ -36,8 +39,8 @@ class AgeGender:
     def video_detector(self, age_net, gender_net):
       #font = cv2.FONT_HERSHEY_SIMPLEX
       
-      firstname = self.djangosqlite_db.Dbmgr().agegen_user
-      entityid= self.djangosqlite_db.Dbmgr().cur_entityid
+      firstname = self.usel.dbman.agegen_user
+      entityid= self.usel.dbman.cur_entityid
       personcounter=0
       emotion= ''
     
@@ -88,7 +91,7 @@ class AgeGender:
           
           lastname= firstname + str(personcounter)
           
-          self.djangosqlite_db.Dbmgr().insert_person_emotion(firstname, lastname, 
+          self.usel.dbman.insert_person_emotion(firstname, lastname, 
                                entityid, age, gender, emotion)
     
           overlay_text = "%s %s" % (gender, age)
@@ -157,7 +160,7 @@ class AgeGender:
           
           lastname= self.firstname + str(personcounter)
           #age value???
-          self.djangosqlite_db.Dbmgr().insert_person_emotion(self.firstname, lastname, 
+          self.usel.dbman.insert_person_emotion(self.firstname, lastname, 
                                self.entityid, age, gender, self.emotion)
     
           overlay_text = "%s %s" % (gender, age)

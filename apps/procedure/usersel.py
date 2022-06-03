@@ -14,7 +14,7 @@ class Usersel:
         self.saveimage= 0
         self.useaudio= 0
         self.framelapse=0.04 #++
-        sys.path.insert(1,'/home/pi/visiog/procwdure/visiopackage')
+        sys.path.insert(1,'/home/pi/visio/procedure/visiopackage')
         import djangosqlite_db
         self.djangosqlite_db = djangosqlite_db
         self.dbman= self.djangosqlite_db.Dbmgr()

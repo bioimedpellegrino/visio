@@ -10,7 +10,7 @@ import sys
 import tty
 import termios
 import threading
-import pty
+#import pty
 
 class PanTilt:
     def __init__(self):
@@ -166,8 +166,7 @@ class PanTilt:
     def continuous_shooting(self,path,interval_ms:int=3000):
         print('Start time-lapse photography, press the "e" key to stop')   
     
-        delay = 10 # ms
-    
+        delay = 10 # ms    
         count = 0
         while True:    
             if count == interval_ms/delay:
@@ -199,7 +198,7 @@ class PanTilt:
             # time-lapse photography
             if self.key == 'q':    
                 #check path
-                output = "/home/pi/visiog/Pictures/time_lapse" # -o
+                output = "/home/pi/visio/Pictures/time_lapse" # -o
                 input = output+'/'+strftime("%Y-%m-%d-%H-%M-%S", localtime())
                 self.check_dir(input)
                 self.check_dir(output)
