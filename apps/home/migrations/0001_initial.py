@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('emotion_agegender', models.PositiveIntegerField(blank=True, default=0, null=True)),
                 ('saveimage', models.PositiveIntegerField(blank=True, default=0, null=True)),
                 ('useaudio', models.PositiveIntegerField(blank=True, default=0, null=True)),
-                ('framelapse', models.PositiveRealField(blank=True, default=0, null=True)),
+                ('framelapse', models.DecimalField(blank=True, default=0, null=True)),
             ],
             options={
                 'verbose_name': 'Impostazione',
