@@ -25,7 +25,7 @@ class PanTilt:
                         G: Quit
                     '''
         self.I2C = I2C().reset_mcu()
-        self.sleep = sleep(0.01)
+        sleep(0.01)
         self.pan = Servo(PWM("P0"))
         self.tilt = Servo(PWM("P1"))
         self.panAngle = 0
@@ -183,7 +183,7 @@ class PanTilt:
         print(self.manual)
     ##    Vilib.camera_start(vflip=True,hflip=True)
     ##    Vilib.display(local=True,web=True)
-        cap = cv2.VideoCapture(0, cv2.CAP_V4L)
+        cap = cv2.VideoCapture(-1, cv2.CAP_V4L)
     
     ##    sleep(1)
         t = threading.Thread(target=self.keyboard_scan)
@@ -192,13 +192,14 @@ class PanTilt:
                 
         while True:
             __, frame = cap.read()
+            cv2.imshow('frame',frame)
             
             self.servo_control(self.key)
     
             # time-lapse photography
             if self.key == 'q':    
                 #check path
-                output = "/home/pi/visio/Pictures/time_lapse" # -o
+                output = "/home/pi/visiog/Pictures/time_lapse" # -o
                 input = output+'/'+strftime("%Y-%m-%d-%H-%M-%S", localtime())
                 self.check_dir(input)
                 self.check_dir(output)
@@ -213,14 +214,12 @@ class PanTilt:
             # esc
             if self.key == 'g':
     ##            Vilib.camera_close()
-                global breakout_flag
-                breakout_flag=True
+                #global breakout_flag
+                self.breakout_flag=True
                 sleep(0.1)
                 print('The program ends, please press CTRL+C to exit.')
                 break 
             sleep(0.01)
-            
-            cv2.imshow('frame',frame)
             if cv2.waitKey(1) &0xFF == ord('r'):
                 break
             
