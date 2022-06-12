@@ -7,7 +7,7 @@ import sys
 
 class Detection:
     def __init__(self):  
-        sys.path.insert(1, '/home/pi/visio/procedure')
+        sys.path.insert(1, '/home/pi/visiog/procedure')
         import usersel
         self.usel = usersel.Usersel()
         self.dbman = self.usel.dbman

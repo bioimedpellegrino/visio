@@ -1,21 +1,18 @@
-
+# testdb.py
 import sys
 print(sys.version)
-#query db
-#sys.path.insert(1,'/home/pi/visiog/visiopackage/sqlite')
-#from djangosqlite_db import *
 
 sys.path.insert(1,'/home/pi/visiog/procedure')
 from usersel import *
 
 usel= Usersel()
-usel.showparams()
+#usel.showparams()
 
 #CREATE POPULATE DB
 #usel.createPopulateDB()
 
 usel.detection= 1
-usel.recognition= 1
+usel.recognition= 0
 usel.emotion_agegender= 1
 #usel.faceagegender= 1
 usel.saveimage= 1
@@ -32,7 +29,9 @@ usel.showparams() #show Usersel
 
 usel.getvisiorecog_fromDb()
 
+usel.getEntities_fromDb()
+
 # DELETE home_visiorecognition
-#usel.deleteVisioRec(usel.dbman.entityid)
+usel.deleteVisioRec(usel.dbman.cur_entityid)
 
 

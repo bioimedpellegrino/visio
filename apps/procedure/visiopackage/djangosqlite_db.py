@@ -14,16 +14,16 @@ from datetime import datetime
 
 class Dbmgr:
     def __init__(self):
-        self.dbpath= r'/home/pi/visio/data/db.sqlite3' # create DB
-        self.portraitpath= r'/home/pi/visio/pictures/portraits/'
-        self.imgpath= r'/home/pi/visio/pictures/'
-        self.procedurepath= r'/home/pi/visio/procedure/visiopackage'
-        self.soundpath= r'/home/pi/visio/sound/'
+        self.dbpath= r'/home/pi/visiog/data/db.sqlite3' # create DB
+        self.portraitpath= r'/home/pi/visiog/pictures/portraits/'
+        self.imgpath= r'/home/pi/visiog/pictures/'
+        self.procedurepath= r'/home/pi/visiog/procedure/visiopackage'
+        self.soundpath= r'/home/pi/visiog/sound/'
         self.emotion_user= 'anonymous_emo'
-        self.emotion_modelpath= r'/home/pi/visio/procedure/face_emotion/model_v6_23.hdf5'
+        self.emotion_modelpath= r'/home/pi/visiog/procedure/face_emotion/model_v6_23.hdf5'
         self.cur_entityid=1 #da impostare con entityid valida correntemente
         self.agegen_user= 'anonymous_agegen'
-        self.agegender_modelpath= r'/home/pi/visio/procedure/face_agegender/agegender_model/'
+        self.agegender_modelpath= r'/home/pi/visiog/procedure/face_agegender/agegender_model/'
         
         self.conn = sqlite3.connect(self.dbpath)
     #print(type(conn))
@@ -244,7 +244,20 @@ class Dbmgr:
         #conn.commit()
         c.close()
         self.conn.close()
-        return datframe    
+        return datframe 
+    
+    def get_entities(self, datframe):
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor()
+        sql = "SELECT id, name, desc, site, camera FROM home_entity"  
+        c.execute(sql)
+        datframe=pd.DataFrame(c.fetchall(), 
+                        columns=['id','name','desc', 'site', 'camera']) 
+        print(len(datframe.index))
+        #conn.commit()
+        c.close()
+        self.conn.close()
+        return datframe 
     
 #PARAMS
     def get_params(self, datframe, id):
@@ -294,7 +307,7 @@ class Dbmgr:
             self.conn = sqlite3.connect(self.dbpath)
             c = self.conn.cursor()
             sql = """DELETE FROM home_visiorecognition WHERE entity = ?"""
-            data = (entity)
+            data = int(entity)
             c.execute(sql, data)
             self.conn.commit()
             c.close()            

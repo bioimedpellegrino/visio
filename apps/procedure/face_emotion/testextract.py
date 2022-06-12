@@ -22,9 +22,10 @@ import tensorflow as tf
 #dbfullpath=os.path.join(BASE_DIR,"../../data/visio.sqlite3")
 class FaceEmotion:
     def __init__(self):
-        sys.path.insert(1, '/home/pi/visio/procedure')
-        import self.usersel
-        self.dbman= self.usersel.Usersel().dbman
+        sys.path.insert(1, '/home/pi/visiog/procedure')
+        import usersel
+        self.usel = usersel.Usersel()
+        self.dbman= self.usel.dbman
         #GLOBAL VAR per current entityid
         self.entityid= self.dbman.cur_entityid
         self.age = 0

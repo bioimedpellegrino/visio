@@ -14,7 +14,7 @@ class Usersel:
         self.saveimage= 0
         self.useaudio= 0
         self.framelapse=0.04 #++
-        sys.path.insert(1,'/home/pi/visio/procedure/visiopackage')
+        sys.path.insert(1,'/home/pi/visiog/procedure/visiopackage')
         import djangosqlite_db
         self.djangosqlite_db = djangosqlite_db
         self.dbman= self.djangosqlite_db.Dbmgr()
@@ -40,12 +40,23 @@ class Usersel:
     def getvisiorecog_fromDb(self):  
         dataframe= pd.DataFrame()
         dataframe = self.dbman.get_visiorecognitions(dataframe)
+        print('Visiorecognitions')
         for row in dataframe.itertuples():
             #columns=['id','person','entity', 'age', 'gender', 'emotion', 'date'] 
             print('id= ' + str(row[1]) + ', personid= ' + str(row[2]) +
                   ', entityid= ' + str(row[3]) + ', age= ' + str(row[4]) +
                   ', gender= ' + str(row[5]) + ', emotion= ' + str(row[6]) +
                   ', date= ' + str(row[7]))
+            
+    def getEntities_fromDb(self):  
+        dataframe= pd.DataFrame()
+        dataframe = self.dbman.get_entities(dataframe)
+        print('Entities')
+        for row in dataframe.itertuples():
+            #columns=['id','name','desc', 'site', 'camera'] 
+            print('id= ' + str(row[1]) + ', name= ' + str(row[2]) +
+                  ', desc= ' + str(row[3]) + ', site= ' + str(row[4]) +
+                  ', camera= ' + str(row[5]))
                     
     #save usersel params 2 db    
     def setparams_2Db(self): 

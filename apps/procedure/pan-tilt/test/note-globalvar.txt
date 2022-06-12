@@ -1,0 +1,23 @@
+global variable
+https://www.w3schools.com/python/python_variables_global.asp
+https://stackoverflow.com/questions/423379/using-global-variables-in-a-function
+
+myvar esterna a funzione myfun() è global
+Se voglio modificarla in myfun() devo dichiarare 
+global myvar in myfun()
+def myfun():
+	global myvar
+	myvar = 1
+se in myfun() voglio solo leggere myvar, 
+non serve dichiararla global
+def myfun():
+	print(myvar)
+
+se in myfun() dichiaro myvar è local e non global
+myvar = 1
+def myfun():
+	myvar
+	myvar = 2
+	print('value = ' + myvar)
+
+=>value = 2

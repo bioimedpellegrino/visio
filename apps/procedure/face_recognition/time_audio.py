@@ -10,7 +10,7 @@ from datetime import datetime
 
 class Audio:
     def __init__(self):
-        sys.path.insert(1,'/home/pi/visio/procedure')
+        sys.path.insert(1,'/home/pi/visiog/procedure')
         import self.usersel
         self.dbman= self.usersel.Usersel().dbman
         self.wave_folder= self.dbman.soundpath #'/home/pi/visio/sound/'

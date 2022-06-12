@@ -10,10 +10,10 @@ class AgeGender:
     def __init__(self):
         #sys.path.insert(1,'/home/pi/visiog/procedure/visiopackage')
         #import self.djangosqlite_db
-        sys.path.insert(1, '/home/pi/visio/procedure')
+        sys.path.insert(1, '/home/pi/visiog/procedure')
         import usersel
         self.usel = usersel.Usersel()
-        #self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(0)
         #cap.set(propId, value), here 3 is the propertyId of width and 4 is for Height.
         self.cap.set(3, 480) #set width of the frame
         self.cap.set(4, 640) #set height of the frame

@@ -25,14 +25,14 @@ import sys
 
 class FaceRecognition:
     def __init__(self):
-        sys.path.insert(1, '/home/pi/visio/procedure')
+        sys.path.insert(1, '/home/pi/visiog/procedure')
         import self.usersel
         self.dbman= self.usersel.Usersel().dbman
         self.portraitpath= self.dbman.portraitpath
         self.age=0
         self.gender='-'
         self.emotion='Neutral'        
-        sys.path.insert(1, '/home/pi/visio/procedure/face_recognition')
+        sys.path.insert(1, '/home/pi/visiog/procedure/face_recognition')
         import self.time_audio 
         self.audio = self.time_audio.Audio()
         
