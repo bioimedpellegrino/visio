@@ -308,7 +308,7 @@ class Dbmgr:
             c = self.conn.cursor()
             sql = """DELETE FROM home_visiorecognition WHERE entity = ?"""
             data = int(entity)
-            c.execute(sql, data)
+            c.execute(sql, (data,))
             self.conn.commit()
             c.close()            
         except sqlite3.Error as error:
