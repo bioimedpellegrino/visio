@@ -26,7 +26,7 @@ class AgeGender:
         self.font = cv2.FONT_HERSHEY_SIMPLEX
         self.firstname = self.usel.dbman.agegen_user
         self.entityid= self.usel.dbman.cur_entityid
-        self.emotion= ''
+        self.emotion= '-'
 
     def load_caffe_models(self):
         age_net = cv2.dnn.readNetFromCaffe(self.modelfullpath + 'deploy_age.prototxt', 

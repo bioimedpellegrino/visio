@@ -11,7 +11,7 @@ usel= Usersel()
 #CREATE POPULATE DB
 #usel.createPopulateDB()
 
-usel.detection= 0
+usel.detection= 1
 usel.recognition= 0
 usel.emotion_agegender= 1
 #usel.faceagegender= 1
