@@ -38,8 +38,8 @@ class Main():
         #import testextract
         #self.testextract = testextract
         sys.path.insert(1, '/home/pi/visio/apps/procedure/face_agegender')
-        import face_agegender
-        self.face_agegender=face_agegender
+        #import face_agegender
+        #self.face_agegender=face_agegender
         self.userselection = userselection
         
     def mainfun(self):
