@@ -55,7 +55,7 @@ class Main():
         facedetection = self.dja_fdetect.Detection()
         show_frame = self.userselection['show_frame']
         cap = cv2.VideoCapture(0, cv2.CAP_V4L) #cap = cv2.VideoCapture(0)
-        
+        print(self.userselection)
         #detection, recognition, emotion-agegender
         if self.userselection['recognition'] == 1:
             known_face_names = []
