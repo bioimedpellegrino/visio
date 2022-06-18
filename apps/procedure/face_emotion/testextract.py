@@ -88,7 +88,7 @@ class FaceEmotion:
         cap.release()
         cv2.destroyAllWindows()
         
-    def faceemotion2(self, frame, personcounter):
+    def faceemotion2(self, frame, personcounter, show_frame=False):
         imagetoprocess=np.array(frame)
         resultimage,n= self.faceextract(imagetoprocess)
         
@@ -113,7 +113,9 @@ class FaceEmotion:
              predicted_label="no face"
           
         cv2.putText(frame,predicted_label,(0,30),cv2.FONT_HERSHEY_SIMPLEX,2, (0,255,0), 1)
-        cv2.imshow('frame',frame)
+        
+        if show_frame:
+            cv2.imshow('frame',frame)
         
         return personcounter
         #if cv2.waitKey(1) &0xFF == ord('q'):

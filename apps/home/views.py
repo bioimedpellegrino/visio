@@ -71,9 +71,11 @@ def camera_settings(request):
             user_selection['detection'] = 1 if user_sel.cleaned_data['face_detection'] else 0
             user_selection['emotion_agegender'] = 1 if user_sel.cleaned_data['face_emotion'] else 0
             user_selection['save_image'] = 1 if user_sel.cleaned_data['save_image'] else 0
-            user_selection['sounds_on']= 1 if user_sel.cleaned_data['sounds_on'] else 0
-            
+            user_selection['sounds_on'] = 1 if user_sel.cleaned_data['sounds_on'] else 0
+            user_selection['show_frame'] = 1 if user_sel.cleaned_data['show_frame'] else 0 
             from apps.procedure.mainfun import Main
+            import _thread
             m = Main(userselection=user_selection)
-            m.mainfun()
+            _thread.start_new_thread(m.mainfun, ())
+            
     return HttpResponse(html_template.render(context, request))

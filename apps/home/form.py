@@ -6,3 +6,4 @@ class UserSelForm(forms.Form):
     face_emotion = forms.BooleanField(label='Emotion age gender', required=False)
     save_image = forms.BooleanField(label='Save images', required=False)
     sounds_on = forms.BooleanField(label='Sounds on', required=False)
+    show_frame = forms.BooleanField(label="Show frame")
