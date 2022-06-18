@@ -35,8 +35,8 @@ class Main():
         import facerec_faster_sql2
         self.facerec_faster_sql2 = facerec_faster_sql2
         sys.path.insert(1, '/home/pi/visiog/procedure/face_emotion')
-        import testextract
-        self.testextract = testextract
+        #import testextract
+        #self.testextract = testextract
         sys.path.insert(1, '/home/pi/visiog/procedure/face_agegender')
         import face_agegender
         self.face_agegender=face_agegender
