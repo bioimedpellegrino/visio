@@ -25,19 +25,19 @@ import time
 class Main():
 
     def __init__(self, userselection):
-        sys.path.insert(1, '/home/pi/visiog/procedure')
+        sys.path.insert(1, '/home/pi/visio/procedure')
         import usersel
         self.usersel = usersel
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_detection')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_detection')
         import dja_fdetect
         self.dja_fdetect = dja_fdetect
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_recognition')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_recognition')
         import facerec_faster_sql2
         self.facerec_faster_sql2 = facerec_faster_sql2
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_emotion')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_emotion')
         import testextract
         self.testextract = testextract
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_agegender')
+        sys.path.insert(1, '/home/pi/visio/procedure/face_agegender')
         import face_agegender
         self.face_agegender=face_agegender
         self.userselection = userselection
