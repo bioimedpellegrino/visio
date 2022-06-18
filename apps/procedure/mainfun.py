@@ -1,16 +1,17 @@
 #mainfun.py
 
+from this import s
 import cv2
 import sys
 print(sys.version)
 import sys
 import time
 
-#procpath = '/home/pi/visiog/procedure'
-#sys.path.insert(1, procpath)
-#import usersel
-#sys.path.insert(1, '/home/pi/visiog/procedure/face_detection')
-#import dja_fdetect
+# procpath = '/home/pi/visiog/procedure'
+# sys.path.insert(1, procpath)
+# import usersel
+# sys.path.insert(1, '/home/pi/visiog/procedure/face_detection')
+# import dja_fdetect
 
 #sys.path.insert(1, '/home/pi/visiog/procedure/face_recognition')
 #import facerec_faster_sql2
@@ -22,7 +23,8 @@ import time
 #import face_agegender
 
 class Main():
-    def __init__(self):
+
+    def __init__(self, userselection):
         sys.path.insert(1, '/home/pi/visiog/procedure')
         import usersel
         self.usersel = usersel
@@ -37,7 +39,8 @@ class Main():
         self.testextract = testextract
         sys.path.insert(1, '/home/pi/visiog/procedure/face_agegender')
         import face_agegender
-        self.face_agegender=face_agegender       
+        self.face_agegender=face_agegender
+        self.userselection = userselection
         
     def mainfun(self):
         usel = self.usersel.Usersel()
@@ -54,7 +57,7 @@ class Main():
         cap = cv2.VideoCapture(0, cv2.CAP_V4L) #cap = cv2.VideoCapture(0)
         
         #detection, recognition, emotion-agegender
-        if usel.recognition == 1:
+        if self.userselection['recognition'] == 1:
             known_face_names = []
             known_face_name_ids = []
             known_face_encodings = []
@@ -63,11 +66,11 @@ class Main():
         
         while True: 
             #Capture frame-by-frame
-            time.sleep(usel.framelapse) #0.04==25 fps
+            time.sleep(0.10) #0.04==25 fps
             __, frame = cap.read()
             
             #imgcounter = imgcounter + 1
-            if usel.detection == 1 and usel.recognition == 1 and usel.emotion_agegender == 1: 
+            if self.userselection['detection'] == 1 and self.userselection['recognition'] == 1 and self.userselection['emotion_agegender'] == 1: 
                 print('mainfun() ALL')
                 imgcounter = facerecognition.facerec_fasterproc(frame, imgcounter, 
                                                        known_face_names, 
@@ -76,18 +79,18 @@ class Main():
                 personcounter = faceemotion.faceemotion2(frame, personcounter) #EMOTION
                 agegender.video_detector2(frame, agegender.age_net, agegender.gender_net) #AGEGENDER
                 
-            elif usel.detection == 1 and usel.recognition == 0 and usel.emotion_agegender == 0:#DETECT
+            elif self.userselection['detection'] == 1 and self.userselection['recognition'] == 0 and self.userselection['emotion_agegender'] == 0:#DETECT
                 imgcounter = facedetection.facedetect2(frame, imgfullpath, imgcounter)
                 print('mainfun() detect')
-            elif usel.detection == 1 and usel.recognition == 1 and usel.emotion_agegender == 0: #DETECT + RECOG
+            elif self.userselection['detection'] == 1 and self.userselection['recognition'] == 1 and self.userselection['emotion_agegender'] == 0: #DETECT + RECOG
                 print('mainfun() recog + detect')
                 imgcounter = facerecognition.facerec_fasterproc(frame, imgcounter, 
                                                        known_face_names, 
                                                        known_face_name_ids, 
                                                        known_face_encodings)
-            elif usel.detection == 0 and usel.recognition == 0 and usel.emotion_agegender == 0:
+            elif self.userselection['detection'] == 0 and self.userselection['recognition'] == 0 and self.userselection['emotion_agegender'] == 0:
                print('mainfun() VIDEO') 
-            elif usel.detection == 1 and usel.recognition == 0 and usel.emotion_agegender == 1:
+            elif self.userselection['detection'] == 1 and self.userselection['recognition'] == 0 and self.userselection['emotion_agegender'] == 1:
                 print('mainfun() detect + emo + agegender')
                 personcounter = faceemotion.faceemotion2(frame, personcounter) #EMOTION
                 #DETECTION
@@ -105,5 +108,5 @@ class Main():
         cap.release()
         cv2.destroyAllWindows()
         
-main= Main()
-main.mainfun()        
+# main= Main()
+# main.mainfun()        

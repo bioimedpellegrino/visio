@@ -48,22 +48,32 @@ def pages(request):
 
 @login_required(login_url="/login/")
 def camera_settings(request):
-    context = {'segment': 'camera-settings'}
+    from .form import UserSelForm
 
+    context = {'segment': 'camera-settings'}
     html_template = loader.get_template('home/camera-settings.html')
-    user_selection = [
-        "DETECTION",
-        "RECOGNITION",
-        "EMOTION-AGE-GENDER",
-        "SOUND MESSAGE",
-        "SAVE IMAGE"
-    ]
+    user_selection_form = UserSelForm()
 
     camera_button = [
         "ON",
         "OFF"
     ]
 
-    request.user_selection = user_selection
+    request.user_selection = user_selection_form
     request.camera_button = camera_button
+
+    if request.method == 'POST':
+        user_sel = UserSelForm(request.POST)
+        if user_sel.is_valid():
+            
+            user_selection = {}
+            user_selection['recognition'] = 1 if user_sel.cleaned_data['face_recognition'] else 0
+            user_selection['detection'] = 1 if user_sel.cleaned_data['face_detection'] else 0
+            user_selection['emotion_agegender'] = 1 if user_sel.cleaned_data['face_emotion'] else 0
+            user_selection['save_image'] = 1 if user_sel.cleaned_data['save_image'] else 0
+            user_selection['sounds_on']= 1 if user_sel.cleaned_data['sounds_on'] else 0
+            
+            from apps.procedure.mainfun import Main
+            m = Main(userselection=user_selection)
+            m.mainfun()
     return HttpResponse(html_template.render(context, request))
