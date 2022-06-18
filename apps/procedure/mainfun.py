@@ -53,7 +53,7 @@ class Main():
         agegender = self.face_agegender.AgeGender()
         facerecognition = self.facerec_faster_sql2.FaceRecognition()
         facedetection = self.dja_fdetect.Detection()
-        
+        show_frame = self.userselection['show_frame']
         cap = cv2.VideoCapture(0, cv2.CAP_V4L) #cap = cv2.VideoCapture(0)
         
         #detection, recognition, emotion-agegender
@@ -75,7 +75,8 @@ class Main():
                 imgcounter = facerecognition.facerec_fasterproc(frame, imgcounter, 
                                                        known_face_names, 
                                                        known_face_name_ids, 
-                                                       known_face_encodings) #DETECT + RECO
+                                                       known_face_encodings,
+                                                       show_frame) #DETECT + RECO
                 personcounter = faceemotion.faceemotion2(frame, personcounter) #EMOTION
                 agegender.video_detector2(frame, agegender.age_net, agegender.gender_net) #AGEGENDER
                 
@@ -87,12 +88,13 @@ class Main():
                 imgcounter = facerecognition.facerec_fasterproc(frame, imgcounter, 
                                                        known_face_names, 
                                                        known_face_name_ids, 
-                                                       known_face_encodings)
+                                                       known_face_encodings,
+                                                       show_frame)
             elif self.userselection['detection'] == 0 and self.userselection['recognition'] == 0 and self.userselection['emotion_agegender'] == 0:
                print('mainfun() VIDEO') 
             elif self.userselection['detection'] == 1 and self.userselection['recognition'] == 0 and self.userselection['emotion_agegender'] == 1:
                 print('mainfun() detect + emo + agegender')
-                personcounter = faceemotion.faceemotion2(frame, personcounter) #EMOTION
+                personcounter = faceemotion.faceemotion2(frame, personcounter, ) #EMOTION
                 #DETECTION
                 imgcounter = facedetection.facedetect2(frame, imgfullpath, imgcounter)
                 #AGEGENDER

@@ -56,7 +56,8 @@ class FaceRecognition:
     def facerec_fasterproc(self, frame, imgcounter,
                            known_face_names, 
                            known_face_name_ids, 
-                           known_face_encodings):
+                           known_face_encodings,
+                           show_frame=False):
         
         face_locations = []
         face_encodings = []
@@ -128,7 +129,8 @@ class FaceRecognition:
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
     
         # Display the resulting image
-        cv2.imshow('Video', frame)
+        if show_frame:
+            cv2.imshow('Video', frame)
         return imgcounter
 
 ##################################### NOT USED   
