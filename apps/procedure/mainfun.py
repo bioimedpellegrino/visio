@@ -61,7 +61,7 @@ class Main():
             known_face_names = []
             known_face_name_ids = []
             known_face_encodings = []
-            known_face_names, known_face_name_ids, known_face_encodings = self.facerec_faster_sql2.prepareLists(
+            known_face_names, known_face_name_ids, known_face_encodings = facerecognition.prepareLists(
                     known_face_names, known_face_name_ids, known_face_encodings)
         
         while True: 

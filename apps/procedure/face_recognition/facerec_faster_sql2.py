@@ -25,16 +25,16 @@ import sys
 
 class FaceRecognition:
     def __init__(self):
-        sys.path.insert(1, '/home/pi/visiog/procedure')
+        sys.path.insert(1, '/home/pi/visio/apps/procedure')
         import usersel
-        self.dbman= self.usersel.Usersel().dbman
+        self.dbman= usersel.Usersel().dbman
         self.portraitpath= self.dbman.portraitpath
         self.age=0
         self.gender='-'
         self.emotion='Neutral'        
-        sys.path.insert(1, '/home/pi/visiog/procedure/face_recognition')
+        sys.path.insert(1, '/home/pi/visio/apps/procedure/face_recognition')
         import time_audio 
-        self.audio = self.time_audio.Audio()
+        self.audio = time_audio.Audio()
         
     def prepareLists(self, known_face_names, known_face_name_ids, known_face_encodings):
         

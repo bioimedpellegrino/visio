@@ -11,8 +11,8 @@ from datetime import datetime
 class Audio:
     def __init__(self):
         sys.path.insert(1,'/home/pi/visiog/procedure')
-        import self.usersel
-        self.dbman= self.usersel.Usersel().dbman
+        import usersel
+        self.dbman= usersel.Usersel().dbman
         self.wave_folder= self.dbman.soundpath #'/home/pi/visio/sound/'
         self.wave_file_morn = 'buongiorno.wav'#'Nirvana2.wav'
         self.wave_file_after= 'buonpome.wav'
