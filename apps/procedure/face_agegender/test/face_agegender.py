@@ -90,7 +90,7 @@ class AgeGender:
           overlay_text = "%s %s" % (gender, age)
           cv2.putText(image, overlay_text, (x, y), self.font, 1, (255, 255, 255), 2, cv2.LINE_AA)
     #cv2.imshow crashes in colab
-          cv2.imshow('frame', image) 
+          #cv2.imshow('frame', image) 
           #from google.colab.patches import cv2_imshow
           #cv2_imshow(image)
     
@@ -164,7 +164,7 @@ class AgeGender:
           overlay_text = "%s %s" % (gender, age)
           cv2.putText(image, overlay_text, (x, y), self.font, 1, (255, 255, 255), 2, cv2.LINE_AA)
     #cv2.imshow crashes in colab
-          cv2.imshow('frame', image) 
+          #cv2.imshow('frame', image) 
           #from google.colab.patches import cv2_imshow
           #cv2_imshow(image)
     
