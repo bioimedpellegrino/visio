@@ -49,8 +49,8 @@ class Main():
         imgfullpath = usel.dbman.imgpath
         imgcounter=0
         personcounter = 0 #Emotion
-        faceemotion = self.testextract.FaceEmotion()
-        agegender = self.face_agegender.AgeGender()
+        #faceemotion = self.testextract.FaceEmotion()
+        #agegender = self.face_agegender.AgeGender()
         facerecognition = self.facerec_faster_sql2.FaceRecognition()
         facedetection = self.dja_fdetect.Detection()
         show_frame = self.userselection['show_frame']
@@ -77,8 +77,8 @@ class Main():
                                                        known_face_name_ids, 
                                                        known_face_encodings,
                                                        show_frame) #DETECT + RECO
-                personcounter = faceemotion.faceemotion2(frame, personcounter) #EMOTION
-                agegender.video_detector2(frame, agegender.age_net, agegender.gender_net) #AGEGENDER
+                #personcounter = faceemotion.faceemotion2(frame, personcounter) #EMOTION
+                #agegender.video_detector2(frame, agegender.age_net, agegender.gender_net) #AGEGENDER
                 
             elif self.userselection['detection'] == 1 and self.userselection['recognition'] == 0 and self.userselection['emotion_agegender'] == 0:#DETECT
                 imgcounter = facedetection.facedetect2(frame, imgfullpath, imgcounter)
@@ -94,11 +94,11 @@ class Main():
                print('mainfun() VIDEO') 
             elif self.userselection['detection'] == 1 and self.userselection['recognition'] == 0 and self.userselection['emotion_agegender'] == 1:
                 print('mainfun() detect + emo + agegender')
-                personcounter = faceemotion.faceemotion2(frame, personcounter, ) #EMOTION
+                #personcounter = faceemotion.faceemotion2(frame, personcounter, ) #EMOTION
                 #DETECTION
                 imgcounter = facedetection.facedetect2(frame, imgfullpath, imgcounter)
                 #AGEGENDER
-                agegender.video_detector2(frame, agegender.age_net, agegender.gender_net) #, personcounter)
+                #agegender.video_detector2(frame, agegender.age_net, agegender.gender_net) #, personcounter)
             
             #display resulting frame
             #cv2.imshow('frame',frame)
