@@ -1,9 +1,22 @@
 '''
     Time-lapse photography based on the Raspistill command
 '''
+import sys
+
 from time import perf_counter, sleep,strftime,localtime
-#from vilib import Vilib
+
+sys.path.insert(1, '/usr/local/lib/python3.7/dist-packages/spidev-3.5-py3.7-linux-armv7l.egg')
+import spidev
+
+sys.path.insert(1, '/usr/local/lib/python3.7/dist-packages/RPi.GPIO-0.7.1a2-py3.7-linux-armv7l.egg')
+import RPi
+
+sys.path.insert(1, '/usr/local/lib/python3.7/dist-packages/smbus-1.1.post2-py3.7-linux-armv7l.egg')
+import smbus
+
+sys.path.insert(1, '/home/pi/sunfounder-io')
 from sunfounder_io import PWM,Servo,I2C
+#from vilib import Vilib
 import cv2
 import os
 import sys

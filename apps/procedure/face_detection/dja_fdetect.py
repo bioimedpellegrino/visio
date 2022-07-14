@@ -3,15 +3,14 @@
 import cv2
 from mtcnn_cv2 import MTCNN
 #import time
-import sys
+#import sys
+from usersel import Usersel
 
 class Detection:
-    def __init__(self):  
-        sys.path.insert(1, '/home/pi/visiog/procedure')
-        import usersel
-        self.usel = usersel.Usersel()
-        self.dbman = self.usel.dbman
+    def __init__(self, userse: Usersel):  
+        self.dbman = userse.dbman
         self.entityid= self.dbman.cur_entityid
+        self.usersel = userse
         #self.detector = MTCNN()
 
     def facedetect2(self, frame, imgfullpath, imgcounter):
@@ -21,7 +20,7 @@ class Detection:
         
         if result != []:
             imgcounter=imgcounter+1
-            if self.usersel.Usersel().saveimage == 1:
+            if self.usersel.saveimage == 1:
                 cv2.imwrite(imgfullpath+str(imgcounter)+'.jpg', frame)      
                 self.dbman.insert_imagedata(len(result), str(imgcounter)+'.jpg', self.entityid)
             else:

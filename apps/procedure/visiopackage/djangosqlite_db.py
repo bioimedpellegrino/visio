@@ -14,16 +14,16 @@ from datetime import datetime
 
 class Dbmgr:
     def __init__(self):
-        self.dbpath= r'/home/pi/visiog/data/db.sqlite3' # create DB
-        self.portraitpath= r'/home/pi/visiog/pictures/portraits/'
-        self.imgpath= r'/home/pi/visiog/pictures/'
-        self.procedurepath= r'/home/pi/visiog/procedure/visiopackage'
-        self.soundpath= r'/home/pi/visiog/sound/'
+        self.dbpath= r'/home/pi/visio/apps/procedure/data/db.sqlite3' # create DB
+        self.imgpath= r'/home/pi/visio/apps/pictures/'
+        self.portraitpath= self.imgpath + r'portraits/'        
+        self.procedurepath= r'/home/pi/visio/apps/procedure/visiopackage'
+        self.soundpath= r'/home/pi/visio/apps/procedure/sound/'
         self.emotion_user= 'anonymous_emo'
-        self.emotion_modelpath= r'/home/pi/visiog/procedure/face_emotion/model_v6_23.hdf5'
+        self.emotion_modelpath= r'/home/pi/visio/apps/procedure/face_emotion/model_v6_23.hdf5'
         self.cur_entityid=1 #da impostare con entityid valida correntemente
         self.agegen_user= 'anonymous_agegen'
-        self.agegender_modelpath= r'/home/pi/visiog/procedure/face_agegender/agegender_model/'
+        self.agegender_modelpath= r'/home/pi/visio/apps/procedure/face_agegender/agegender_model/'
         
         self.conn = sqlite3.connect(self.dbpath)
     #print(type(conn))
@@ -210,9 +210,21 @@ class Dbmgr:
         self.conn.close()
 #GETS    
     def get_persons(self, datframe): #self, fullpathdb, datframe
-        #self.conn = sqlite3.connect(dbpath1)
+        self.conn = sqlite3.connect(self.dbpath)
         c = self.conn.cursor()
         sql = "SELECT id, firstname,lastname,face_image FROM home_person"   
+        c.execute(sql)
+        datframe=pd.DataFrame(c.fetchall(), columns=['id','firstname','lastname','face_image']) 
+        print(len(datframe.index))
+        #conn.commit()
+        c.close()
+        self.conn.close()
+        return datframe #consente di vedere nel caller le modifiche a datframe interne al def
+
+    def get_persons_img(self, datframe): #self, fullpathdb, datframe
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor()
+        sql = 'SELECT id, firstname,lastname,face_image FROM home_person WHERE face_image != ""'   
         c.execute(sql)
         datframe=pd.DataFrame(c.fetchall(), columns=['id','firstname','lastname','face_image']) 
         print(len(datframe.index))

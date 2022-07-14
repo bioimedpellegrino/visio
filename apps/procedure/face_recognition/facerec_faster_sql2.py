@@ -22,24 +22,25 @@ import pandas as pd
 from time_audio import *
 #from mqtt_serv import *
 import sys
+from usersel import Usersel
 
 class FaceRecognition:
-    def __init__(self):
-        sys.path.insert(1, '/home/pi/visio/apps/procedure')
-        import usersel
-        self.dbman= usersel.Usersel().dbman
+    def __init__(self, userse: Usersel):
+        
+        self.userse = userse
+        self.dbman= userse.dbman
         self.portraitpath= self.dbman.portraitpath
         self.age=0
         self.gender='-'
         self.emotion='Neutral'        
         sys.path.insert(1, '/home/pi/visio/apps/procedure/face_recognition')
         import time_audio 
-        self.audio = time_audio.Audio()
+        self.audio = time_audio.Audio(userse)
         
     def prepareLists(self, known_face_names, known_face_name_ids, known_face_encodings):
         
         dataframe= pd.DataFrame()
-        dataframe = self.dbman.get_persons(dataframe)
+        dataframe = self.dbman.get_persons_img(dataframe)
         
         for row in dataframe.itertuples(): 
         #row[0]==index, row[1]== id, row[2]==firstname, row[3]==lastname, row[4]==imagepath, row[5]==imagename
@@ -78,10 +79,10 @@ class FaceRecognition:
             if len(face_locations)>0:
                 imgcounter=imgcounter+1
             
-            if len(face_locations)>0 and self.usersel.Usersel().useaudio == 1:
+            if len(face_locations)> 0 and self.userse.useaudio == 1:
                 self.audio.audio_msg() # se riconosce persone bisogna comporre audio personalizzato
-            if len(face_locations)>0 and self.usersel.Usersel().detection == 1:
-                if self.usersel.Usersel().saveimage == 1:
+            if len(face_locations)> 0 and self.userse.detection == 1:
+                if self.userse.saveimage == 1:
                     cv2.imwrite(self.dbman.imgpath + str(imgcounter)+'.jpg', frame)      
                     self.dbman.insert_imagedata(len(face_locations), str(imgcounter)+'.jpg', 
                                                 self.dbman.cur_entityid)#entity!!!
@@ -129,8 +130,8 @@ class FaceRecognition:
             cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
     
         # Display the resulting image
-        if show_frame:
-            cv2.imshow('Video', frame)
+        #if show_frame:
+        #    cv2.imshow('Video', frame)
         return imgcounter
 
 ##################################### NOT USED   

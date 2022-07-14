@@ -6,18 +6,19 @@ import sys
 #gui SAVE imposta i parametri di Usersel e chiama setparams_2Db()
 #gui READ getparams_fromDb, set param values in controls
 class Usersel:
-    def __init__(self):
+    def __init__(self, dbmgr_path): #/home/pi/visio/apps/procedure/visiopackage'
         self.id = 1
-        self.detection= 0
+        self.detection= 1
         self.recognition= 0
         self.emotion_agegender= 0 #self.agegender= 0
         self.saveimage= 0
         self.useaudio= 0
         self.framelapse=0.04 #++
-        sys.path.insert(1,'/home/pi/visiog/procedure/visiopackage')
+        #sys.path.insert(1,'/home/pi/visio/apps/procedure/visiopackage')
+        #print(dbmgr_path)
+        sys.path.insert(1, dbmgr_path)
         import djangosqlite_db
-        self.djangosqlite_db = djangosqlite_db
-        self.dbman= self.djangosqlite_db.Dbmgr()
+        self.dbman= djangosqlite_db.Dbmgr()
         
     def createPopulateDB(self):
         self.dbman.createDB()

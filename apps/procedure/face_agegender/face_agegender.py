@@ -3,25 +3,21 @@
 import cv2
 #import numpy as np
 #import pafy
-import sys
-
+from usersel import Usersel
 
 class AgeGender:
-    def __init__(self):
-        #sys.path.insert(1,'/home/pi/visiog/procedure/visiopackage')
-        #import self.djangosqlite_db
-        sys.path.insert(1, '/home/pi/visiog/procedure')
-        import usersel
-        self.usel = usersel.Usersel()
-        self.cap = cv2.VideoCapture(0)
+    def __init__(self, userse: Usersel):
+        self.usel = userse
+        
+        '''self.cap = cap #cv2.VideoCapture(0) NO come secondo VideoCapture!!!
         #cap.set(propId, value), here 3 is the propertyId of width and 4 is for Height.
-        self.cap.set(3, 480) #set width of the frame
-        self.cap.set(4, 640) #set height of the frame
+        #self.cap.set(3, 480) #set width of the frame
+        #self.cap.set(4, 640) #set height of the frame '''
         #3 separate lists for storing Model_Mean_Values, Age and Gender.
         self.MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
         self.age_list = ['(0, 2)', '(4, 6)', '(8, 12)', '(15, 20)', '(25, 32)', '(38, 43)', '(48, 53)', '(60, 100)']
         self.gender_list = ['Male', 'Female']
-        self.modelfullpath= self.usel.dbman.agegender_modelpath #"/home/pi/visio/procs/face_agegender/agegender_model/" 
+        self.modelfullpath= self.usel.dbman.agegender_modelpath #"../face_agegender/agegender_model/" 
         self.age_net, self.gender_net = self.load_caffe_models()
         self.font = cv2.FONT_HERSHEY_SIMPLEX
         self.firstname = self.usel.dbman.agegen_user
@@ -38,7 +34,7 @@ class AgeGender:
 
     def video_detector(self, age_net, gender_net):
       #font = cv2.FONT_HERSHEY_SIMPLEX
-      
+      '''
       firstname = self.usel.dbman.agegen_user
       entityid= self.usel.dbman.cur_entityid
       personcounter=0
@@ -105,12 +101,9 @@ class AgeGender:
     #and ANDs it with 0xFF which removes anything above the bottom 8-bits and compares the result 
     #of that with the ASCII code for the letter q which would mean the user has decided to quit by pressing q on the keyboard.
           if cv2.waitKey(1) & 0xFF == ord('q'): 
-            break
-
-#main procedure
-#if __name__ == "__main__":
-#    age_net, gender_net = load_caffe_models()
-#    video_detector(age_net, gender_net)
+            break 
+          '''
+    
     def video_detector2(self, image, age_net, gender_net): #, personcounter):
     
       #while True:
@@ -176,5 +169,11 @@ class AgeGender:
           #if cv2.waitKey(1) & 0xFF == ord('q'): 
           #  break
 
-agegender = AgeGender()
-agegender.video_detector(agegender.age_net, agegender.gender_net)
+#agegender = AgeGender()
+#agegender.video_detector(agegender.age_net, agegender.gender_net)
+          
+#main procedure
+#if __name__ == "__main__":
+#    age_net, gender_net = load_caffe_models()
+#    video_detector(age_net, gender_net)
+          

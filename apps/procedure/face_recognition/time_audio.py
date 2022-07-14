@@ -7,12 +7,11 @@ import wave
 import getopt
 import alsaaudio
 from datetime import datetime
+from usersel import Usersel
 
 class Audio:
-    def __init__(self):
-        sys.path.insert(1,'/home/pi/visiog/procedure')
-        import usersel
-        self.dbman= usersel.Usersel().dbman
+    def __init__(self, userse: Usersel):
+        self.dbman= userse.dbman
         self.wave_folder= self.dbman.soundpath #'/home/pi/visio/sound/'
         self.wave_file_morn = 'buongiorno.wav'#'Nirvana2.wav'
         self.wave_file_after= 'buonpome.wav'
@@ -69,4 +68,4 @@ class Audio:
           fullpath= self.wave_folder + self.wave_file_even #evening
     
         with wave.open(fullpath, 'rb') as f:
-            play(device, f)
+            self.play(device, f)

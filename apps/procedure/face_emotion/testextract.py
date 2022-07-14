@@ -15,16 +15,15 @@ from tensorflow.keras.models import load_model
 import cv2
 import time as time
 import tensorflow as tf
+from usersel import Usersel
 
 #imposta db path
 #import os.path
 #BASE_DIR=os.path.dirname(os.path.abspath(__file__))
 #dbfullpath=os.path.join(BASE_DIR,"../../data/visio.sqlite3")
 class FaceEmotion:
-    def __init__(self):
-        sys.path.insert(1, '/home/pi/visiog/procedure')
-        import usersel
-        self.usel = usersel.Usersel()
+    def __init__(self, usersele: Usersel):
+        self.usel = usersele
         self.dbman= self.usel.dbman
         #GLOBAL VAR per current entityid
         self.entityid= self.dbman.cur_entityid
@@ -51,7 +50,7 @@ class FaceEmotion:
     def faceemotion(self):    
         personcounter = 0
                 
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(0) #NO come secondo VideoCapture
         while True:
              time.sleep(0.04) #25 fps
              __, frame = cap.read()
@@ -114,13 +113,12 @@ class FaceEmotion:
           
         cv2.putText(frame,predicted_label,(0,30),cv2.FONT_HERSHEY_SIMPLEX,2, (0,255,0), 1)
         
-        if show_frame:
-            cv2.imshow('frame',frame)
-        
+        #if show_frame:
+        #    cv2.imshow('frame',frame)        
         return personcounter
         #if cv2.waitKey(1) &0xFF == ord('q'):
         #    break
         
     
-faceEmotion= FaceEmotion()
-faceEmotion.faceemotion()
+#faceEmotion= FaceEmotion()
+#faceEmotion.faceemotion()

@@ -21,9 +21,8 @@ import cv2
 from mtcnn_cv2 import MTCNN
 import time
 
-procedurepath = '/home/pi/visiog/visiopackage/sqlite'
-procpath = '/home/pi/visiog/procedure'
-procfilename='djangosqlite_db'
+procedurepath = '/home/pi/visio/apps/procedure/visiopackage'
+procpath = '/home/pi/visio/apps/procedure'
 
 import sys
 sys.path.insert(1, procedurepath)
@@ -89,5 +88,7 @@ def facedetect(saveimage):
     cv2.destroyAllWindows()
 
 #param per salvare immagine di facce rilevate
-#saveimage=True    
-facedetect(usersel.Usersel().saveimage)
+#saveimage=True 
+dbmgr_path = r'/home/pi/visio/apps/procedure/visiopackage'     
+usel = usersel.Usersel(dbmgr_path)    
+facedetect(usel.saveimage)

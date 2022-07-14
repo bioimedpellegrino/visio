@@ -1,0 +1,15 @@
+time_lapseg-py in virtualenv
+
+in virtualenv venv= /home/pi/visio
+time_lapseg.py non trova lib sunfounder e quindi ho linkato lib installate in
+
+sys.path.insert(1, '/home/pi/sunfounder-io')
+from sunfounder_io import PWM,Servo,I2C
+
+e altri link in
+/usr/local/lib/python3.7/dist-packages
+ 
+import spidev
+import RPi
+import smbus
+
