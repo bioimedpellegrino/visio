@@ -2,10 +2,11 @@
 import sys
 print(sys.version)
 
-sys.path.insert(1,'/home/pi/visiog/procedure')
+sys.path.insert(1,'/home/pi/visio/apps/procedure')
 from usersel import *
 
-usel= Usersel()
+dbmgr_path = r'/home/pi/visio/apps/procedure/visiopackage'
+usel= Usersel(dbmgr_path)
 #usel.showparams()
 
 #CREATE POPULATE DB
@@ -14,7 +15,6 @@ usel= Usersel()
 usel.detection= 1
 usel.recognition= 0
 usel.emotion_agegender= 1
-#usel.faceagegender= 1
 usel.saveimage= 0
 usel.useaudio= 1
 usel.framelapse= 0.04
@@ -32,6 +32,12 @@ usel.getvisiorecog_fromDb()
 usel.getEntities_fromDb()
 
 # DELETE home_visiorecognition
-#usel.deleteVisioRec(usel.dbman.cur_entityid)
+usel.deleteVisioRec(usel.dbman.cur_entityid)
+
+#DELETE home_imagedata
+usel.deleteImagedata(usel.dbman.cur_entityid)
+
+#DELETE home_persons without face_image
+usel.deletePersons()
 
 

@@ -16,8 +16,8 @@ class Main():
     def __init__(self, userselection): #dizionario GUI
          #TEST
         userselection['detection'] = 0
-        userselection['recognition'] = 1
-        userselection['emotion_agegender'] = 0 #1: solo agegender, 2: solo emotion
+        userselection['recognition'] = 0
+        userselection['emotion_agegender'] = 3 #1: solo agegender, 2: solo emotion, 3: emo + agegender
         userselection['show_frame'] = 1
         #end TEST
         self.dict_usel = userselection
@@ -57,9 +57,8 @@ class Main():
         imgcounter=0
         personcounter = 0 #Emotion        
 
-        show_frame = self.dict_usel['show_frame']
-        #cap = cv2.VideoCapture(-1, cv2.CAP_V4L)  #VideoCapture(-1, cv2.CAP_V4L2)
-        cap = cv2.VideoCapture(0, cv2.CAP_V4L)
+        show_frame = self.dict_usel['show_frame'] 
+        cap = cv2.VideoCapture(0, cv2.CAP_V4L) #VideoCapture(-1, cv2.CAP_V4L2)
         #cap = cv2.VideoCapture(cv2.CAP_V4L2)
         #if cap.isOpened()==False:
         #    cap.open(-1)      
@@ -105,17 +104,21 @@ class Main():
                 imgcounter = self.facedetection.facedetect2(frame, imgfullpath, imgcounter)
             elif (self.dict_usel['detection'] == 0 and 
                   self.dict_usel['recognition'] == 1 and 
-                  self.dict_usel['emotion_agegender'] == 0): #DETECT + RECOG
-                '''root = tk.Tk()
-                root.withdraw()
-                messagebox.showwarning('Test', 'mainfun() recog')#print('mainfun() recog + detect')
-                root.update()'''
+                  self.dict_usel['emotion_agegender'] == 0): #RECOG                
                 imgcounter = self.facerecognition.facerec_fasterproc(frame, imgcounter, 
                                                        known_face_names, 
                                                        known_face_name_ids, 
                                                        known_face_encodings,
                                                        show_frame)
                 print('faceCounter = ' + str(imgcounter))
+            elif (self.dict_usel['detection'] == 1 and 
+                  self.dict_usel['recognition'] == 1 and 
+                  self.dict_usel['emotion_agegender'] == 0): #DETECT + RECOG                
+                imgcounter = self.facerecognition.facerec_fasterproc(frame, imgcounter, 
+                                                       known_face_names, 
+                                                       known_face_name_ids, 
+                                                       known_face_encodings,
+                                                       show_frame)                
             elif (self.dict_usel['detection'] == 0 and 
                   self.dict_usel['recognition'] == 0 and 
                   self.dict_usel['emotion_agegender'] == 0): #VIDEO
@@ -130,7 +133,8 @@ class Main():
                 #DETECTION
                 #imgcounter = facedetection.facedetect2(frame, imgfullpath, imgcounter)
                 #AGEGENDER
-                self.agegender.video_detector2(frame, self.agegender.age_net, self.agegender.gender_net) #, personcounter)
+                personcounter = self.agegender.video_detector2(frame, self.agegender.age_net, 
+                                                               self.agegender.gender_net) #, personcounter)
             elif (self.dict_usel['detection'] == 0 and 
                   self.dict_usel['recognition'] == 0 and 
                   self.dict_usel['emotion_agegender'] == 2): #solo EMOTION
@@ -139,8 +143,13 @@ class Main():
                 messagebox.showwarning('Test', 'mainfun() EMOTION') 
                 root.update()'''
                 personcounter = self.faceemotion.faceemotion2(frame, personcounter) #EMOTION
-                #DETECTION
-                #imgcounter = facedetection.facedetect2(frame, imgfullpath, imgcounter)            
+            elif (self.dict_usel['detection'] == 0 and 
+                  self.dict_usel['recognition'] == 0 and 
+                  self.dict_usel['emotion_agegender'] == 3): #EMOTION + AGEGENDER
+                personcounter = self.faceemotion.faceemotion2(frame, personcounter) #EMOTION                
+                personcounter = self.agegender.video_detector2(frame, self.agegender.age_net, 
+                                                               self.agegender.gender_net) #AGEGENDER
+                            
             #display resulting frame
             if self.dict_usel['show_frame'] ==1:
                 cv2.imshow('frame',frame)

@@ -16,7 +16,7 @@ import face_recognition
 import cv2
 import numpy as np
 import time as time
-#from datetime import datetime
+from datetime import datetime
 import pandas as pd
 
 from time_audio import *
@@ -31,8 +31,9 @@ class FaceRecognition:
         self.dbman= userse.dbman
         self.portraitpath= self.dbman.portraitpath
         self.age=0
-        self.gender='-'
-        self.emotion='Neutral'        
+        self.gender='recog-nogender'
+        self.emotion='recog-noemo'
+        self.img= 'recog-noimg'        
         sys.path.insert(1, '/home/pi/visio/apps/procedure/face_recognition')
         import time_audio 
         self.audio = time_audio.Audio(userse)
@@ -81,13 +82,15 @@ class FaceRecognition:
             
             if len(face_locations)> 0 and self.userse.useaudio == 1:
                 self.audio.audio_msg() # se riconosce persone bisogna comporre audio personalizzato
+            
             if len(face_locations)> 0 and self.userse.detection == 1:
                 if self.userse.saveimage == 1:
-                    cv2.imwrite(self.dbman.imgpath + str(imgcounter)+'.jpg', frame)      
-                    self.dbman.insert_imagedata(len(face_locations), str(imgcounter)+'.jpg', 
+                    dat= datetime.today().strftime('%Y-%m-%d-%H:%M:%f') #datetime.now()
+                    cv2.imwrite(self.dbman.imgpath + dat +'.jpg', frame)      
+                    self.dbman.insert_imagedata(len(face_locations), dat +'.jpg', 
                                                 self.dbman.cur_entityid)#entity!!!
                 else:
-                    self.dbman.insert_imagedata(len(face_locations), '-', self.dbman.cur_entityid)#entity!!!
+                    self.dbman.insert_imagedata(len(face_locations), self.img, self.dbman.cur_entityid)#entity!!!
                 #IF DETECTION INSERT IN DB 
                 
             face_names = []

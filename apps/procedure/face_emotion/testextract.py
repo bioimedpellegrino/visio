@@ -28,7 +28,7 @@ class FaceEmotion:
         #GLOBAL VAR per current entityid
         self.entityid= self.dbman.cur_entityid
         self.age = 0
-        self.gender= 'noval'
+        self.gender= 'emo-nogender'
         #self.lastname='anonimous-emo'
         self.firstname = self.dbman.emotion_user #'anonymous_emo'
         self.emotion_dict= {'Angry': 0, 'Sad': 5, 'Neutral': 4, 'Disgust': 1, 

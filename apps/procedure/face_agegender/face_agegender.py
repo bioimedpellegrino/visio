@@ -22,7 +22,7 @@ class AgeGender:
         self.font = cv2.FONT_HERSHEY_SIMPLEX
         self.firstname = self.usel.dbman.agegen_user
         self.entityid= self.usel.dbman.cur_entityid
-        self.emotion= '-'
+        self.emotion= 'noemo-agegender'
 
     def load_caffe_models(self):
         age_net = cv2.dnn.readNetFromCaffe(self.modelfullpath + 'deploy_age.prototxt', 
@@ -158,6 +158,8 @@ class AgeGender:
     
           overlay_text = "%s %s" % (gender, age)
           cv2.putText(image, overlay_text, (x, y), self.font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+    
+        return personcounter
     #cv2.imshow crashes in colab
           #cv2.imshow('frame', image) 
           #from google.colab.patches import cv2_imshow

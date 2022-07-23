@@ -172,7 +172,7 @@ class Dbmgr:
     def insert_imagedata(self, facenum, imgfullpath, entityid):
         self.conn = sqlite3.connect(self.dbpath)
         c = self.conn.cursor()
-        dat= datetime.now() #CURRENT_TIMESTAMP
+        dat= datetime.now() #datetime.today().strftime('%Y-%m-%d %H:%M:%-S') 
         c.execute("""INSERT INTO home_imagedata(face_num, created, modified, image, entity) values(?, ?,?,?,?)""",
                   (facenum, dat, dat, imgfullpath, entityid)) 
         self.conn.commit()
@@ -327,6 +327,35 @@ class Dbmgr:
             print("Failed to delete sqlite home_visirecognition", error)
         finally:
             self.conn.close()
+    #delete persons without face_image        
+    def deletePersons(self):
+        try:
+            self.conn = sqlite3.connect(self.dbpath)
+            c = self.conn.cursor()
+            sql = """DELETE FROM home_person WHERE face_image = \'\'"""
+            #data = int(entity)
+            c.execute(sql)
+            self.conn.commit()
+            c.close()            
+        except sqlite3.Error as error:
+            print("Failed to delete sqlite home_person", error)
+        finally:
+            self.conn.close()
+            
+    def deleteImagedata(self, entity):
+        try:
+            self.conn = sqlite3.connect(self.dbpath)
+            c = self.conn.cursor()
+            sql = """DELETE FROM home_imagedata WHERE entity = ?"""
+            data = int(entity)
+            c.execute(sql, (data,))
+            self.conn.commit()
+            c.close()            
+        except sqlite3.Error as error:
+            print("Failed to delete sqlite home_imagedata", error)
+        finally:
+            self.conn.close()
+            
 #POPULATE            
     def populateDB(self):
         facedetection=1

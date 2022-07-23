@@ -14,8 +14,6 @@ class Usersel:
         self.saveimage= 0
         self.useaudio= 0
         self.framelapse=0.04 #++
-        #sys.path.insert(1,'/home/pi/visio/apps/procedure/visiopackage')
-        #print(dbmgr_path)
         sys.path.insert(1, dbmgr_path)
         import djangosqlite_db
         self.dbman= djangosqlite_db.Dbmgr()
@@ -89,4 +87,10 @@ class Usersel:
         print('framelapse= ' + str(self.framelapse))
         
     def deleteVisioRec(self, entityid):
-        self.dbman.deleteVisioRec(entityid)       
+        self.dbman.deleteVisioRec(entityid)
+        
+    def deletePersons(self):
+        self.dbman.deletePersons()
+        
+    def deleteImagedata(self, entityid):
+        self.dbman.deleteImagedata(entityid)        
