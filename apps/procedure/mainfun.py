@@ -55,7 +55,8 @@ class Main():
         #self.usel.showparams()
         imgfullpath = self.usel.dbman.imgpath
         imgcounter=0
-        personcounter = 0 #Emotion        
+        personcounter = 0 #Emotion
+        personcounter1 = 0
 
         show_frame = self.dict_usel['show_frame'] 
         cap = cv2.VideoCapture(0, cv2.CAP_V4L) #VideoCapture(-1, cv2.CAP_V4L2)
@@ -146,7 +147,7 @@ class Main():
             elif (self.dict_usel['detection'] == 0 and 
                   self.dict_usel['recognition'] == 0 and 
                   self.dict_usel['emotion_agegender'] == 3): #EMOTION + AGEGENDER
-                personcounter = self.faceemotion.faceemotion2(frame, personcounter) #EMOTION                
+                personcounter1 = self.faceemotion.faceemotion2(frame, personcounter1) #EMOTION                
                 personcounter = self.agegender.video_detector2(frame, self.agegender.age_net, 
                                                                self.agegender.gender_net) #AGEGENDER
                             

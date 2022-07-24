@@ -49,6 +49,7 @@ class FaceRecognition:
             known_face_names.append(row[2] + " " + row[3])
             print(str(row[1]) + " " + row[2] + " " + row[3] + " " + row[4])    
             #known_images.append(row['imagepath'] + row['imagename'])
+            print('test: ' + self.portraitpath + row[4])
             cur_image = face_recognition.load_image_file(self.portraitpath + row[4])
             cur_face_encoding = face_recognition.face_encodings(cur_image)[0]
             known_face_encodings.append(cur_face_encoding)
