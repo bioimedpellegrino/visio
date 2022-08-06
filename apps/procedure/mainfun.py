@@ -15,7 +15,7 @@ class Main():
 
     def __init__(self, userselection): #dizionario GUI
          #TEST
-        userselection['detection'] = 0
+        userselection['detection'] = 1
         userselection['recognition'] = 0
         userselection['emotion_agegender'] = 3 #1: solo agegender, 2: solo emotion, 3: emo + agegender
         userselection['show_frame'] = 1
@@ -48,11 +48,13 @@ class Main():
         root.withdraw()
         messagebox.showwarning('Test', 'mainfun() INIT')
         root.update()'''
-        
+        self.usel.detection = userselection['detection']
+        self.usel.recognition = userselection['recognition']
+        self.usel.emotion_agegender = userselection['emotion_agegender']                
         #SET PARAMS in SQLITE3 nodjango
-        #self.usel.setparams_2Db()
+        self.usel.setparams_2Db()
         #self.usel.getparams_fromDb() #get user selections saved in DB
-        #self.usel.showparams()
+        self.usel.showparams()
         imgfullpath = self.usel.dbman.imgpath
         imgcounter=0
         personcounter = 0 #Emotion
@@ -150,7 +152,13 @@ class Main():
                 personcounter1 = self.faceemotion.faceemotion2(frame, personcounter1) #EMOTION                
                 personcounter = self.agegender.video_detector2(frame, self.agegender.age_net, 
                                                                self.agegender.gender_net) #AGEGENDER
-                            
+            elif (self.dict_usel['detection'] == 1 and 
+                  self.dict_usel['recognition'] == 0 and 
+                  self.dict_usel['emotion_agegender'] == 3): #EMOTION + AGEGENDER
+                personcounter1 = self.faceemotion.faceemotion2(frame, personcounter1) #EMOTION                
+                personcounter = self.agegender.video_detector2(frame, self.agegender.age_net, 
+                                                               self.agegender.gender_net) #AGEGENDER
+                imgcounter = self.facedetection.facedetect2(frame, imgfullpath, imgcounter)            
             #display resulting frame
             if self.dict_usel['show_frame'] ==1:
                 cv2.imshow('frame',frame)

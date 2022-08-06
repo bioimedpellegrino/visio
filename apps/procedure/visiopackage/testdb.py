@@ -1,4 +1,6 @@
 # testdb.py
+
+import datetime
 import sys
 print(sys.version)
 
@@ -27,17 +29,53 @@ usel.getparams_fromDb() #READ from DB 2 Usersel
 
 usel.showparams() #show Usersel
 
-usel.getvisiorecog_fromDb()
+#usel.getvisiorecog_fromDb()
 
 usel.getEntities_fromDb()
 
+# sum(face_num) from  last day from now
+##val = usel.getlastday_facenum()
+print(str(val))
+
+# SUM(face_num) from 2 dates (init, end)
+##val = usel.get_daterange_facenum('2022-07-24', '2022-07-25')
+print(str(val))
+
+#SUM(face_num) from 2 datetimes (init,end)
+end = datetime.datetime.fromisoformat('2022-07-24 23:59:59') #'2022-07-24 24:00:00'
+init = datetime.datetime.fromisoformat('2022-07-24 23:44:00')
+
+##val = usel.get_datetime_range_facenum(init, end)
+print(str(val))
+
+#face_num records avery 15 minutes 
+#init = datetime.datetime.fromisoformat('2022-07-24 00:00:00')
+#end = datetime.datetime.fromisoformat('2022-07-24 23:59:59')
+init = '2022-07-24 00:00:00'
+end = '2022-07-24 23:59:59'
+
+time_period= 15
+usel.get_period_imagedata(init, end, time_period)
+
 # DELETE home_visiorecognition
-usel.deleteVisioRec(usel.dbman.cur_entityid)
+#usel.deleteVisioRec(usel.dbman.cur_entityid)
 
 #DELETE home_imagedata
-usel.deleteImagedata(usel.dbman.cur_entityid)
+#usel.deleteImagedata(usel.dbman.cur_entityid)
 
 #DELETE home_persons without face_image
-usel.deletePersons()
-
+#usel.deletePersons()
+'''
+face_num ???
+WITH cte(created, face_num) AS (
+    SELECT MIN(created) FROM home_imagedata 
+    UNION ALL
+    SELECT datetime(created, '+15 minutes')
+    FROM cte
+    WHERE datetime(created, '+15 minutes') < (
+            SELECT MAX(created) FROM home_imagedata 
+            WHERE datetime(created) BETWEEN datetime('2022-07-24 00:00:00') AND datetime('2022-07-24 23:59:59')
+    ))
+    SELECT created FROM cte;
+'''
 

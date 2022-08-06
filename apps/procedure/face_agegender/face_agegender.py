@@ -20,9 +20,9 @@ class AgeGender:
         self.modelfullpath= self.usel.dbman.agegender_modelpath #"../face_agegender/agegender_model/" 
         self.age_net, self.gender_net = self.load_caffe_models()
         self.font = cv2.FONT_HERSHEY_SIMPLEX
-        self.firstname = self.usel.dbman.agegen_user
+        self.firstname = self.usel.dbman.agegen_user #anonymous_agegen
         self.entityid= self.usel.dbman.cur_entityid
-        self.emotion= 'noemo-agegender'
+        self.emotion= 'agegender-noemo'
 
     def load_caffe_models(self):
         age_net = cv2.dnn.readNetFromCaffe(self.modelfullpath + 'deploy_age.prototxt', 
@@ -152,7 +152,7 @@ class AgeGender:
           print("Age Range: " + age)
           
           lastname= self.firstname + str(personcounter)
-          #age value???
+          #age value
           self.usel.dbman.insert_person_emotion(self.firstname, lastname, 
                                self.entityid, age, gender, self.emotion)
     

@@ -1,6 +1,7 @@
 #usersel.py
 
 import pandas as pd
+import datetime
 import sys
 
 #gui SAVE imposta i parametri di Usersel e chiama setparams_2Db()
@@ -21,7 +22,8 @@ class Usersel:
     def createPopulateDB(self):
         self.dbman.createDB()
         self.dbman.populateDB()
-        
+
+#GET        
     def getparams_fromDb(self):  
         dataframe= pd.DataFrame()
         dataframe = self.dbman.get_params(dataframe, self.id)
@@ -56,7 +58,46 @@ class Usersel:
             print('id= ' + str(row[1]) + ', name= ' + str(row[2]) +
                   ', desc= ' + str(row[3]) + ', site= ' + str(row[4]) +
                   ', camera= ' + str(row[5]))
-                    
+
+    def getlastday_imagedata(self):  
+        dataframe= pd.DataFrame()
+        dataframe = self.dbman.get_lastday_imagedata(dataframe)
+        print('imagedata')
+        for row in dataframe.itertuples():
+            #columns=['id','face_num','created', 'modified', 'image', 'entity'] 
+            print('id= ' + str(row[1]) + ', face_num= ' + str(row[2]) +
+                  ', created= ' + str(row[3]) + ', modified= ' + str(row[4]) +
+                  ', image= ' + str(row[5]), ', entity= ' + str(row[6]))
+        return len(dataframe.index) #num record
+
+    def getlastday_facenum(self):  
+        #dataframe= pd.DataFrame()
+        facenum = self.dbman.get_lastday_facenum()
+        print('facenum = ' + str(facenum))
+        return facenum
+
+    def get_daterange_facenum(self, init:datetime, end:datetime):  
+        #dataframe= pd.DataFrame()
+        facenum = self.dbman.get_daterange_facenum(init, end)
+        print('facenum = ' + str(facenum))
+        return facenum 
+
+    def get_datetime_range_facenum(self, init:datetime, end:datetime):  
+        #dataframe= pd.DataFrame()
+        facenum = self.dbman.get_datetimerange_facenum(init, end)
+        print('facenum = ' + str(facenum))
+        return facenum  
+
+    def get_period_imagedata(self, init:datetime, end:datetime, time_period):  
+        dataframe= pd.DataFrame()
+        dataframe = self.dbman.get_period_facenum(init, end, dataframe, time_period)
+        print('imagedata')
+        for row in dataframe.itertuples():
+            #columns=['id','face_num','created', 'modified', 'image', 'entity'] 
+            print('created= ' + str(row[1]))
+            #print('id= ' + str(row[1]) + ', face_num= ' + str(row[2]))
+        return len(dataframe.index) #num record          
+#SET                    
     #save usersel params 2 db    
     def setparams_2Db(self): 
         self.dbman.update_params(self.id, self.detection, 
@@ -65,7 +106,7 @@ class Usersel:
                                  self.saveimage, 
                                  self.useaudio,
                                  self.framelapse)
-        
+#UPDATE        
     #update usersel params and save them 2 db    
     def updateparams(self, detection, recognition, emotion_agegender,
                      saveimage, useaudio, framelapse):

@@ -270,7 +270,101 @@ class Dbmgr:
         c.close()
         self.conn.close()
         return datframe 
+
+    def get_lastday_imagedata(self, datframe):
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor()
+        sql = '''SELECT id, face_num, created, modified, image, entity 
+         FROM home_imagedata WHERE date(created) < date('now', '-1 days')''' 
+         
+        #SELECT COUNT(face_num) face_num, created, modified, image, entity 
+         #FROM home_imagedata WHERE date(created) < date('now', '-1 days')''' 
+        c.execute(sql)
+        datframe=pd.DataFrame(c.fetchall(), 
+            columns=['id','face_num','created', 'modified', 'image', 'entity']) 
+        print(len(datframe.index))
+        #conn.commit()
+        c.close()
+        self.conn.close()
+        return datframe 
+
+    def get_lastday_facenum(self): #, datframe):
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor()
+        sql = '''SELECT SUM(face_num) AS facenum 
+         FROM home_imagedata WHERE date(created) > date('now', '-1 days')''' 
+         
+        #SELECT COUNT(face_num) face_num, created, modified, image, entity 
+         #FROM home_imagedata WHERE date(created) < date('now', '-1 days')''' 
+        c.execute(sql)
+        value = c.fetchall()
+        #datframe=pd.DataFrame(c.fetchall(), 
+        #    columns=['id','face_num','created', 'modified', 'image', 'entity']) 
+        #print(len(datframe.index))
+        #conn.commit()
+        c.close()
+        self.conn.close()
+        return value[0][0] if value != [] else value 
+
+    def get_daterange_facenum(self, init:datetime, end:datetime): #, datframe):
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor()
+        sql = '''SELECT SUM(face_num) AS facenum 
+         FROM home_imagedata WHERE date(created) BETWEEN date(?) AND date(?)''' 
+         
+        #SELECT COUNT(face_num) face_num, created, modified, image, entity 
+         #FROM home_imagedata WHERE date(created) < date('now', '-1 days')''' 
+        c.execute(sql, (init, end))
+        value = c.fetchall()
+        #datframe=pd.DataFrame(c.fetchall(), 
+        #    columns=['id','face_num','created', 'modified', 'image', 'entity']) 
+        #print(len(datframe.index))
+        #conn.commit()
+        c.close()
+        self.conn.close()
+        return value[0][0] if value != [] else value    
+
+    def get_datetimerange_facenum(self, init:datetime, end:datetime): #, datframe):
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor()
+        sql = '''SELECT SUM(face_num) AS facenum 
+         FROM home_imagedata WHERE datetime(created) BETWEEN datetime(?) AND datetime(?)''' 
+         
+        c.execute(sql, (init, end))
+        value = c.fetchall()
+        #datframe=pd.DataFrame(c.fetchall(), 
+        #    columns=['id','face_num','created', 'modified', 'image', 'entity']) 
+        #print(len(datframe.index))
+        #conn.commit()
+        c.close()
+        self.conn.close()
+        return value[0][0] if value != [] else value 
     
+    def get_period_facenum(self, init:datetime, end:datetime, datframe, time_period): #, ):
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor()
+        sql = '''WITH cte(created) AS (
+        SELECT MIN(created) FROM home_imagedata 
+        UNION ALL
+        SELECT datetime(created, '+15 minutes')
+        FROM cte
+        WHERE datetime(created, '+15 minutes') < (
+                SELECT MAX(created) FROM home_imagedata 
+                WHERE datetime(created) BETWEEN datetime(?) AND datetime(?)
+        ))
+        SELECT created FROM cte''' 
+         
+        c.execute(sql, (init, end))
+        #value = c.fetchall()
+        datframe = pd.DataFrame(c.fetchall(), columns=['created']) #columns=['id','face_num'])
+        #print(len(datframe.index))
+        #conn.commit()
+        c.close()
+        self.conn.close()
+        return datframe
+    
+    #SELECT who, whenAT FROM seen WHERE whenAT >= Datetime('now', '-5 minutes')
+    #https://www.sqlitetutorial.net/sqlite-date-functions/sqlite-time-function/
 #PARAMS
     def get_params(self, datframe, id):
         #self.conn = sqlite3.connect(dbpath1)
