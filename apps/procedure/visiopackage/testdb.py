@@ -66,16 +66,34 @@ usel.get_period_imagedata(init, end, time_period)
 #DELETE home_persons without face_image
 #usel.deletePersons()
 '''
-face_num ???
+COMMON TABLE EXPRESSION
 WITH cte(created, face_num) AS (
-    SELECT MIN(created) FROM home_imagedata 
+    SELECT MIN(created), face_num FROM home_imagedata 
     UNION ALL
-    SELECT datetime(created, '+15 minutes')
+    SELECT datetime(created, '+15 minutes'), face_num
     FROM cte
     WHERE datetime(created, '+15 minutes') < (
             SELECT MAX(created) FROM home_imagedata 
             WHERE datetime(created) BETWEEN datetime('2022-07-24 00:00:00') AND datetime('2022-07-24 23:59:59')
     ))
-    SELECT created FROM cte;
+    SELECT created, face_num FROM cte;
+
+Error: recursive aggregate queries not supported   
+WITH cte(created, face_num) AS (
+    SELECT MIN(created), SUM(face_num) FROM home_imagedata 
+    UNION ALL
+    SELECT datetime(created, '+15 minutes'), SUM(face_num)
+    FROM cte
+    WHERE datetime(created, '+15 minutes') < (
+            SELECT MAX(created) FROM home_imagedata 
+            WHERE datetime(created) BETWEEN datetime('2022-07-24 00:00:00') AND datetime('2022-07-24 23:59:59')
+    ))
+    SELECT created, face_num FROM cte; 
+    
+SELECT SUM(face_num) FROM home_imagedata 
+WHERE datetime(created) BETWEEN datetime("2022-07-24 00:11:46") AND date("2022-07-24 00:26:46");
+
+SELECT sum(face_num) FROM home_imagedata 
+WHERE datetime(created) BETWEEN datetime('2022-07-24 17:51:00') AND datetime('2022-07-24 18:06:00');   
 '''
 

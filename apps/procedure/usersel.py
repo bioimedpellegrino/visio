@@ -3,6 +3,8 @@
 import pandas as pd
 import datetime
 import sys
+#import numpy as np
+from collections import defaultdict
 
 #gui SAVE imposta i parametri di Usersel e chiama setparams_2Db()
 #gui READ getparams_fromDb, set param values in controls
@@ -86,7 +88,31 @@ class Usersel:
         #dataframe= pd.DataFrame()
         facenum = self.dbman.get_datetimerange_facenum(init, end)
         print('facenum = ' + str(facenum))
-        return facenum  
+        return facenum
+    
+    #with a period and timerange, eg 15', gets num. faces for every timerange in period
+    #facenumDict: dictionary of lists
+    def get_facenum_in_period(self, init:datetime, end:datetime, timerange, facenumDict): 
+        cur_end = init + datetime.timedelta(minutes=timerange) #minutes=15
+        cur_init = init
+        
+        counter = 0
+        exist = True
+        while exist == True:
+            counter += 1
+            facenum = self.dbman.get_datetimerange_facenum(cur_init, cur_end)
+            #print('faceN= ' + str(facenum) + ',ini: ' + str(cur_init))
+            mylist= [facenum, cur_init]
+            
+            facenumDict[counter].append(mylist) # np.append(arraydata, facenum)
+            
+            cur_init = cur_init + datetime.timedelta(minutes=timerange)
+            cur_end = cur_end + datetime.timedelta(minutes=timerange) 
+             
+            if cur_end > end: # or counter == 4
+                exist=False
+        return facenumDict 
+   
 
     def get_period_imagedata(self, init:datetime, end:datetime, time_period):  
         dataframe= pd.DataFrame()
