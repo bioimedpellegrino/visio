@@ -89,10 +89,11 @@ class Usersel:
         facenum = self.dbman.get_datetimerange_facenum(init, end)
         print('facenum = ' + str(facenum))
         return facenum
-    
+#FACE NUM DETECTED    
     #with a period and timerange, eg 15', gets num. faces for every timerange in period
     #facenumDict: dictionary of lists
-    def get_facenum_in_period(self, init:datetime, end:datetime, timerange, facenumDict): 
+    def get_facenum_in_period(self, init:datetime, end:datetime, timerange, 
+                              entityId, facenumDict): 
         cur_end = init + datetime.timedelta(minutes=timerange) #minutes=15
         cur_init = init
         
@@ -100,9 +101,9 @@ class Usersel:
         exist = True
         while exist == True:
             counter += 1
-            facenum = self.dbman.get_datetimerange_facenum(cur_init, cur_end)
+            facenum = self.dbman.get_datetimerange_facenum(cur_init, cur_end, entityId)
             #print('faceN= ' + str(facenum) + ',ini: ' + str(cur_init))
-            mylist= [facenum, cur_init]
+            mylist= [facenum, cur_init, cur_end]
             
             facenumDict[counter].append(mylist) # np.append(arraydata, facenum)
             
@@ -112,8 +113,88 @@ class Usersel:
             if cur_end > end: # or counter == 4
                 exist=False
         return facenumDict 
-   
-
+#EMOTIONS   
+    def get_emo_in_period(self, init:datetime, end:datetime, timerange, 
+                              entityId, emotypeDict, emotionsDict): 
+        '''Angry':0, 'Disgust':1, 'Fear':2, 'Happy':3,'Neutral':4,Sad':5,   
+                            'Surprise':6'''
+        cur_end = init + datetime.timedelta(minutes=timerange) #minutes=15
+        cur_init = init
+        
+        counter = 0
+        exist = True
+        while exist == True:
+            for index in emotypeDict:
+                counter += 1
+                emonum = self.dbman.get_datetimerange_emotions(cur_init, cur_end, 
+                                                    entityId, emotypeDict[index])
+                if emonum > 0:
+                    mylist= [emonum, emotypeDict[index], cur_init, cur_end]            
+                    emotionsDict[counter].append(mylist) 
+            
+            cur_init = cur_init + datetime.timedelta(minutes=timerange)
+            cur_end = cur_end + datetime.timedelta(minutes=timerange) 
+             
+            if cur_end > end: # or counter == 4
+                exist=False
+        return emotionsDict 
+#GENDER    
+    def get_gender_in_period(self, init:datetime, end:datetime, timerange, 
+                              entityId, gendertypeDict, genderDict): 
+        '''0 Male, 1 Female'''
+        cur_end = init + datetime.timedelta(minutes=timerange) #minutes=15
+        cur_init = init
+        
+        counter = 0
+        exist = True
+        while exist == True:
+            counter += 1
+            male_num=0
+            for index in gendertypeDict:
+                #counter += 1
+                gendernum = self.dbman.get_datetimerange_gender(cur_init, cur_end, 
+                                                    entityId, gendertypeDict[index])
+                if index==0:
+                    male_num=gendernum
+                if index > 0 and (gendernum > 0 or male_num > 0):
+                    mylist= [gendertypeDict[0], male_num, gendertypeDict[index], 
+                             gendernum, cur_init, cur_end]
+                    #mylist= [gendernum, gendertypeDict[index], cur_init, cur_end]            
+                    genderDict[counter].append(mylist) 
+            
+            cur_init = cur_init + datetime.timedelta(minutes=timerange)
+            cur_end = cur_end + datetime.timedelta(minutes=timerange) 
+             
+            if cur_end > end: # or counter == 4
+                exist=False
+        return genderDict 
+#AGE    
+    def get_age_in_period(self, init:datetime, end:datetime, timerange, 
+                              entityId, agetypeDict, agesDict): 
+        '''0:'(0, 2)', 1:'(4, 6)', 2:'(8, 12)', 3:'(15, 20)',
+                     4:'(25, 32)', 5:'(38, 43)', 6:'(48, 53)', 7:'(60, 100)'
+                     '''
+        cur_end = init + datetime.timedelta(minutes=timerange) #minutes=15
+        cur_init = init
+        
+        counter = 0
+        exist = True
+        while exist == True:
+            for index in agetypeDict:
+                counter += 1
+                agenum = self.dbman.get_datetimerange_age(cur_init, cur_end, 
+                                                    entityId, agetypeDict[index])
+                if agenum > 0:
+                    mylist= [agetypeDict[index], agenum, cur_init, cur_end]            
+                    agesDict[counter].append(mylist) 
+            
+            cur_init = cur_init + datetime.timedelta(minutes=timerange)
+            cur_end = cur_end + datetime.timedelta(minutes=timerange) 
+             
+            if cur_end > end: # or counter == 4
+                exist=False
+        return agesDict
+    
     def get_period_imagedata(self, init:datetime, end:datetime, time_period):  
         dataframe= pd.DataFrame()
         dataframe = self.dbman.get_period_facenum(init, end, dataframe, time_period)

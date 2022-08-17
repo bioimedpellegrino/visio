@@ -323,14 +323,16 @@ class Dbmgr:
         c.close()
         self.conn.close()
         return value[0][0] if value != [] else value    
-
-    def get_datetimerange_facenum(self, init:datetime, end:datetime): #, datframe):
+#used
+    def get_datetimerange_facenum(self, init:datetime, end:datetime, entityId):
+        #print('entityId= ', str(entityId))
         self.conn = sqlite3.connect(self.dbpath)
-        c = self.conn.cursor()
+        c = self.conn.cursor() #
         sql = '''SELECT SUM(face_num) AS facenum 
-         FROM home_imagedata WHERE datetime(created) BETWEEN datetime(?) AND datetime(?)''' 
+         FROM home_imagedata WHERE (entity = ?) AND
+         (datetime(created) BETWEEN datetime(?) AND datetime(?))''' 
          
-        c.execute(sql, (init, end))
+        c.execute(sql, (int(entityId), init, end)) 
         value = c.fetchall()
         #datframe=pd.DataFrame(c.fetchall(), 
         #    columns=['id','face_num','created', 'modified', 'image', 'entity']) 
@@ -339,6 +341,51 @@ class Dbmgr:
         c.close()
         self.conn.close()
         return value[0][0] if value != [] else value 
+    
+    def get_datetimerange_emotions(self, init:datetime, end:datetime, entityId, emoval):
+        #print('entityId= ', str(entityId))
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor() #
+        sql = '''SELECT COUNT(*) AS emonum 
+         FROM home_visiorecognition WHERE (entity = ?) AND
+         (datetime(date) BETWEEN datetime(?) AND datetime(?))
+         AND emotion = ?''' 
+         
+        c.execute(sql, (int(entityId), init, end, emoval)) 
+        value = c.fetchall()
+        c.close()
+        self.conn.close()
+        return value[0][0] if value != [] else value
+    
+    def get_datetimerange_gender(self, init:datetime, end:datetime, entityId, genderval):
+        #print('GENDER= ', genderval)
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor() #
+        sql = '''SELECT COUNT(*) AS gender 
+         FROM home_visiorecognition WHERE (entity = ?) AND
+         (datetime(date) BETWEEN datetime(?) AND datetime(?))
+         AND gender = ?''' 
+         
+        c.execute(sql, (int(entityId), init, end, genderval)) 
+        value = c.fetchall()
+        c.close()
+        self.conn.close()
+        return value[0][0] if value != [] else value
+    
+    def get_datetimerange_age(self, init:datetime, end:datetime, entityId, ageval):
+        #print('GENDER= ', genderval)
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor() #
+        sql = '''SELECT COUNT(*) AS c_age 
+         FROM home_visiorecognition WHERE (entity = ?) AND
+         (datetime(date) BETWEEN datetime(?) AND datetime(?))
+         AND age = ?''' 
+         
+        c.execute(sql, (int(entityId), init, end, ageval)) 
+        value = c.fetchall()
+        c.close()
+        self.conn.close()
+        return value[0][0] if value != [] else value
     
     def get_period_facenum(self, init:datetime, end:datetime, datframe, time_period): #, ):
         self.conn = sqlite3.connect(self.dbpath)

@@ -22,7 +22,10 @@ class Main():
         userselection['recognition'] = 0
         userselection['emotion_agegender'] = 0 #1: solo agegender, 2: solo emotion, 3: emo + agegender
         userselection['show_frame'] = 0
-        userselection['numfaces_graphic'] = 1
+        userselection['numfaces_graphic'] = 0
+        userselection['emotions_graphic'] = 0
+        userselection['gender_graphic'] = 0
+        userselection['age_graphic'] = 1
         #end TEST
         self.dict_usel = userselection
         
@@ -88,9 +91,30 @@ class Main():
             init= datetime.strptime('2022-07-23 00:00:00', '%Y-%m-%d %H:%M:%S')
             end= datetime.strptime('2022-07-24 23:59:59', '%Y-%m-%d %H:%M:%S')
             timerange = 15
-            facenum_dict= self.show_graphic(init, end, timerange)
+            entityId = self.usel.dbman.cur_entityid #1
+            facenum_dict= self.show_numfaces_graphic(init, end, timerange, entityId)
             print(facenum_dict)
-                        
+        elif userselection['emotions_graphic'] == 1:
+            init= datetime.strptime('2022-07-23 00:00:00', '%Y-%m-%d %H:%M:%S')
+            end= datetime.strptime('2022-07-24 23:59:59', '%Y-%m-%d %H:%M:%S')
+            timerange = 15
+            entityId = self.usel.dbman.cur_entityid
+            emotions_dict= self.show_emo_graphic(init, end, timerange, entityId)
+            print(emotions_dict)            
+        elif userselection['gender_graphic'] == 1:
+            init= datetime.strptime('2022-07-23 00:00:00', '%Y-%m-%d %H:%M:%S')
+            end= datetime.strptime('2022-07-24 23:59:59', '%Y-%m-%d %H:%M:%S')
+            timerange = 15
+            entityId = self.usel.dbman.cur_entityid
+            gender_dict= self.show_gender_graphic(init, end, timerange, entityId)
+            print(gender_dict)
+        elif userselection['age_graphic'] == 1:
+            init= datetime.strptime('2022-07-23 00:00:00', '%Y-%m-%d %H:%M:%S')
+            end= datetime.strptime('2022-07-24 23:59:59', '%Y-%m-%d %H:%M:%S')
+            timerange = 15
+            entityId = self.usel.dbman.cur_entityid
+            age_dict= self.show_age_graphic(init, end, timerange, entityId)
+            print(age_dict)                        
         else:
             while True:            
                 time.sleep(0.10) #0.04==25 fps
@@ -164,7 +188,7 @@ class Main():
                     personcounter1 = self.faceemotion.faceemotion2(frame, personcounter1) #EMOTION                
                     personcounter = self.agegender.video_detector2(frame, self.agegender.age_net, 
                                                                    self.agegender.gender_net) #AGEGENDER
-                elif (self.dict_usel['detection'] == 1 and 
+                elif (self.dict_usel['detection'] == 1 and #detect
                       self.dict_usel['recognition'] == 0 and 
                       self.dict_usel['emotion_agegender'] == 3): #EMOTION + AGEGENDER
                     personcounter1 = self.faceemotion.faceemotion2(frame, personcounter1) #EMOTION                
@@ -182,12 +206,45 @@ class Main():
             cap.release()
             cv2.destroyAllWindows()
 
-    def show_graphic(self, init:datetime, end:datetime, timerange):
+    def show_numfaces_graphic(self, init:datetime, end:datetime, timerange, entityId):
         facenum_dict= defaultdict(list)  #dictionary of lists 
-        facenum_dict = self.usel.get_facenum_in_period(init, end, timerange, facenum_dict)
+        facenum_dict.clear()
+        facenum_dict = self.usel.get_facenum_in_period(init, end, timerange, 
+                                                       entityId, facenum_dict)
         return facenum_dict 
+
             
-            
+    def show_emo_graphic(self, init:datetime, end:datetime, timerange, entityId):
+        '''Angry':0,'Disgust':1,'Fear':2,'Happy':3,'Neutral':4,'Sad':5,'Surprise':6'''
+        emotypeDict={0:'Angry', 1:'Disgust', 2:'Fear', 3:'Happy', 4:'Neutral',
+                     5:'Sad', 6:'Surprise'}
+        emotions_dict= defaultdict(list)  #dictionary of lists 
+        emotions_dict.clear()
+        emotions_dict = self.usel.get_emo_in_period(init, end, timerange, 
+                                    entityId, emotypeDict, emotions_dict)
+        return emotions_dict 
+    
+#nello stesso timerange [male, male_num, female, female_num] se almeno uno > 0
+    def show_gender_graphic(self, init:datetime, end:datetime, timerange, entityId):
+        gendertypeDict={0:'Male', 1:'Female'}
+        
+        gender_dict= defaultdict(list)  #dictionary of lists 
+        gender_dict.clear()
+        gender_dict = self.usel.get_gender_in_period(init, end, timerange, 
+                                    entityId, gendertypeDict, gender_dict)
+        return gender_dict 
+
+    def show_age_graphic(self, init:datetime, end:datetime, timerange, entityId):
+        agetypeDict={0:'(0, 2)', 1:'(4, 6)', 2:'(8, 12)', 3:'(15, 20)',
+                     4:'(25, 32)', 5:'(38, 43)', 6:'(48, 53)', 7:'(60, 100)'}
+        
+        age_dict= defaultdict(list)  #dictionary of lists 
+        age_dict.clear()
+        age_dict = self.usel.get_age_in_period(init, end, timerange, 
+                                    entityId, agetypeDict, age_dict)
+        return age_dict    
+        
+          
 #import usersel
 #userselection=usersel.Usersel() 
 userselection = {} #dictionary    

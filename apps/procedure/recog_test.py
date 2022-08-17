@@ -42,3 +42,8 @@ print("Python base path (exec):")
 print(sys.exec_prefix)
 print("Python system path:")
 print(sys.path)
+
+select * from home_imagedata 
+where (entity=1) and (datetime(created) 
+between datetime('2022-07-23 00:00:00') and datetime('2022-07-24 23:59:59')) 
+order by created;

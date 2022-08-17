@@ -1,0 +1,11 @@
+Ale,
+
+Push10
+In mainfun.py ho aggiunto le chiamate alle query per i grafici relativi 
+ai dati rilevati, relativi ad un periodo di tempo, suddivisi in 
+facce rilevate, emozioni, genere (maschi, femmine), età:
+userselection['numfaces_graphic']
+userselection['emotions_graphic']
+userselection['gender_graphic']
+userselection['age_graphic']
+
