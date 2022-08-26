@@ -194,6 +194,31 @@ class Usersel:
             if cur_end > end: # or counter == 4
                 exist=False
         return agesDict
+
+#RECOGNIZED    
+    def get_recognized_in_period(self, init:datetime, end:datetime, timerange, 
+                              entityId, genderval, recognizedDict): 
+        
+        cur_end = init + datetime.timedelta(minutes=timerange) #minutes=15
+        cur_init = init
+        
+        counter = 0
+        exist = True
+        while exist == True:
+            counter += 1
+            recognizednum = self.dbman.get_datetimerange_recognized(cur_init, 
+                                            cur_end, entityId, genderval)
+             
+             #if recognizednum > 0:
+            mylist= [recognizednum, cur_init, cur_end]            
+            recognizedDict[counter].append(mylist) 
+            
+            cur_init = cur_init + datetime.timedelta(minutes=timerange)
+            cur_end = cur_end + datetime.timedelta(minutes=timerange) 
+             
+            if cur_end > end: # or counter == 4
+                exist=False
+        return recognizedDict
     
     def get_period_imagedata(self, init:datetime, end:datetime, time_period):  
         dataframe= pd.DataFrame()

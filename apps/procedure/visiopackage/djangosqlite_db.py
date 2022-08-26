@@ -387,6 +387,23 @@ class Dbmgr:
         self.conn.close()
         return value[0][0] if value != [] else value
     
+    # recognized = record con gender = 'recog-nogender'
+    def get_datetimerange_recognized(self, init:datetime, end:datetime, 
+                                     entityId, genderval):
+        #print('GENDER= ', genderval)
+        self.conn = sqlite3.connect(self.dbpath)
+        c = self.conn.cursor() #
+        sql = '''SELECT COUNT(*) AS recognized 
+         FROM home_visiorecognition WHERE (entity = ?) AND
+         (datetime(date) BETWEEN datetime(?) AND datetime(?))
+         AND gender = ?''' 
+         
+        c.execute(sql, (int(entityId), init, end, genderval)) 
+        value = c.fetchall()
+        c.close()
+        self.conn.close()
+        return value[0][0] if value != [] else value
+    
     def get_period_facenum(self, init:datetime, end:datetime, datframe, time_period): #, ):
         self.conn = sqlite3.connect(self.dbpath)
         c = self.conn.cursor()

@@ -25,7 +25,8 @@ class Main():
         userselection['numfaces_graphic'] = 0
         userselection['emotions_graphic'] = 0
         userselection['gender_graphic'] = 0
-        userselection['age_graphic'] = 1
+        userselection['age_graphic'] = 0
+        userselection['recognized_graphic'] = 1
         #end TEST
         self.dict_usel = userselection
         
@@ -114,7 +115,14 @@ class Main():
             timerange = 15
             entityId = self.usel.dbman.cur_entityid
             age_dict= self.show_age_graphic(init, end, timerange, entityId)
-            print(age_dict)                        
+            print(age_dict) 
+        elif userselection['recognized_graphic'] == 1:
+            init= datetime.strptime('2022-07-23 00:00:00', '%Y-%m-%d %H:%M:%S')
+            end= datetime.strptime('2022-07-24 23:59:59', '%Y-%m-%d %H:%M:%S')
+            timerange = 15
+            entityId = self.usel.dbman.cur_entityid
+            recocgnized_dict= self.show_recognized_graphic(init, end, timerange, entityId)
+            print(recocgnized_dict)                       
         else:
             while True:            
                 time.sleep(0.10) #0.04==25 fps
@@ -243,7 +251,17 @@ class Main():
         age_dict = self.usel.get_age_in_period(init, end, timerange, 
                                     entityId, agetypeDict, age_dict)
         return age_dict    
+
+#num persone riconosciute nel periodo
+    def show_recognized_graphic(self, init:datetime, end:datetime, timerange, entityId):
         
+        genderval='recog-nogender'
+        recognized_dict= defaultdict(list)  #dictionary of lists 
+        recognized_dict.clear()
+        recognized_dict = self.usel.get_recognized_in_period(init, end, timerange, 
+                              entityId, genderval, recognized_dict)
+        
+        return recognized_dict        
           
 #import usersel
 #userselection=usersel.Usersel() 
